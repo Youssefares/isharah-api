@@ -1,0 +1,32 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.3.5
+  TargetRailsVersion: 5.0.3
+  # Cop names are not d§splayed in offense messages by default. Change behavior
+  # by overriding DisplayCopNames, or by giving the -D/--display-cop-names
+  # option.
+  DisplayCopNames: true
+  # Style guide URLs are not displayed in offense messages by default. Change
+  # behavior by overriding DisplayStyleGuide, or by giving the
+  # -S/--display-style-guide option.
+  DisplayStyleGuide: true
+  # Exclude some files
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/**/*'
+    - 'tmp/**/*'
+    - 'bin/**/*'
+    - 'config/**/*'
+
+# This cop is aimed at large block in the imperative programming sense
+# Tests are declarative
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

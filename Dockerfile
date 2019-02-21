@@ -5,6 +5,7 @@ WORKDIR /egsl-website-api
 COPY Gemfile /egsl-website-api/Gemfile
 COPY Gemfile.lock /egsl-website-api/Gemfile.lock
 RUN bundle install
+RUN gem install mailcatcher
 COPY . /egsl-website-api
 
 # Add a script to be executed every time the container starts.

@@ -13,5 +13,7 @@ services:
       - .:/egsl-website-api
     ports:
       - "3000:3000"
+      - "1025:1025"
+      - "1080:1080"
     depends_on:
       - db

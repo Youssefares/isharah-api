@@ -50,8 +50,8 @@ group :development, :test do
   gem 'pry', '~> 0.12.2'
   gem 'pry-rails'
 
-  # Emails in development
-  gem 'mailcatcher'
+  # API docs
+  gem 'swagger_ui_engine'
 end
 
 group :development do
