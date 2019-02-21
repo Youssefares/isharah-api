@@ -17,3 +17,11 @@ services:
       - "1080:1080"
     depends_on:
       - db
+
+  hooks:
+    build:
+      context: .
+      dockerfile: 'Dockerfile.githooks'
+    volumes:
+      - ./.git:/tmp/.git
+      - ./hooks:/tmp/hooks

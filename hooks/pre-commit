@@ -1,0 +1,12 @@
+#!/bin/bash
+echo Running Rubocop on commit diff..
+cd api
+docker-compose run web rubocop 
+if [ $? -eq 0 ]
+then
+    echo -e "\e[32mStyle checks passed successfully\e[39m"
+    exit 0
+else
+    echo -e "\e[31mStyle checks failed: please fix style violations before committing\e[39m"
+    exit 1
+fi
