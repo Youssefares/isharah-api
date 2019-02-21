@@ -35,13 +35,14 @@ ActiveRecord::Schema.define(version: 2019_02_20_122834) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.string "first_name"
-    t.string "last_name"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "city", null: false
+    t.string "country", null: false
+    t.date "date_of_birth", null: false
+    t.string "email", null: false
+    t.string "gender", null: false
     t.string "image"
-    t.string "email"
-    t.string "city"
-    t.string "country"
-    t.date "date_of_birth"
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -5,4 +5,8 @@ class User < ActiveRecord::Base
   devise :confirmable, :database_authenticatable, :lockable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
+
+  validates :first_name, :last_name, :gender,
+            :city, :country, :date_of_birth, presence: true
+  validates :email, presence: true, uniqueness: true
 end

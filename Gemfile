@@ -21,9 +21,7 @@ gem 'devise_token_auth'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-# Irb alternative
-gem 'pry', '~> 0.12.2'
-gem 'pry-rails', group: :development
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -38,11 +36,22 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and
   # get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+
+  # Mocking and testing
   gem 'factory_bot_rails'
   gem 'rspec'
   gem 'rspec-rails', '~> 3.8'
+
+  # Style checking
   gem 'rubocop'
   gem 'rubocop-rspec'
+
+  # Irb alternative
+  gem 'pry', '~> 0.12.2'
+  gem 'pry-rails'
+
+  # Emails in development
+  gem 'mailcatcher'
 end
 
 group :development do
