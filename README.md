@@ -28,6 +28,13 @@ If you intend to use an interactive debugger (pry or byebug, etc.), instead of `
 ### Rails commands
 If you're new to Docker, you should know that the rails env won't be available outside the container. So any rails commands (`rails c`, `rails g`, `rails db:migrate`, etc.), or any command dependent on the gemfile installed won't work outside the container, because they weren't installed outside. Instead you need to use `docker-compose exec web bash` to open a bash shell inside your container to be able to run all the rails commands you're used to. 
 
+### Dependencies
+All our dependencies should be listed in `Gemfile`. When adding a new dependency, you'll need to rebuild the docker container as follows.
+```bash
+docker-compose up --build
+```
+Docker may eat up your disk space if you aren't careful. Commands such as `docker images` and `docker ps -l` will be useful to know what to remove, in case the rebuilds don't clean up after themselves.
+
 ### Permissions
 Using docker with rails on linux was a bit of a headache regarding file permissions and file ownership. For now, just `sudo` any of the commands that need extra permissions (the 3 commands in getting started may reply with permission denied), until we figure out a better solution. This hopefully shouldn't be any problem for macos or windows.
 
