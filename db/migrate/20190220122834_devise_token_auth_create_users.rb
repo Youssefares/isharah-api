@@ -45,7 +45,11 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
       t.date   :date_of_birth, null: false
       t.string :email, null: false, unique: true
       t.string :gender, null: false
-      t.string :image
+      t.text :image
+      t.text :bio
+
+      ## Permissions
+      t.boolean :is_reviewer, default: false, null: false
 
       ## Tokens
       t.json :tokens
