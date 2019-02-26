@@ -16,8 +16,7 @@ services:
       - "1025:1025"
       - "1080:1080"
     depends_on:
-      - db
-
+      - db 
   hooks:
     build:
       context: .
@@ -25,3 +24,10 @@ services:
     volumes:
       - ./.git:/tmp/.git
       - ./hooks:/tmp/hooks
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports: 
+      - "3030:8080"
+    volumes:
+      - ./swagger-ui/swagger.yml:/usr/share/nginx/html/swagger.yml
+
