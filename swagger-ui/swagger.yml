@@ -1,0 +1,159 @@
+openapi: 3.0.1
+servers:
+  - url: http://localhost:3000/
+    description: Development server
+info:
+  description: >-
+    The specification for the Egyptian Sign Language website backend API.
+  version: 1.0.0
+  title: EgSL API
+tags:
+  - name: User Account and Session
+    description: Sign in, sign up, sign out, delete account, update account info, view profile.
+  - name: Password
+    description: Request password reset email, get password reset token, reset password.
+  - name: Root
+    description: Get API root for testing and development.
+paths:
+  /auth/:
+    post:
+      tags:
+        - User Account and Session
+      operationId: sign-up
+      summary: sign-up
+      requestBody:
+        description: Contains the data for the user to be created.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                image:
+                  type: string
+                gender:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                date_of_birth:
+                  type: string
+                confirm_success_url:
+                  type: string
+              example:
+                email: youssefares@egsl.com
+                password: password
+                first_name: youssef
+                last_name: fares
+                image: someplace
+                gender: male
+                city: Cairo
+                country: Egypt
+                date_of_birth: 20/03/1996
+                password_confirmation: password
+                confirm_success_url: /
+      responses:
+        '422':
+          description: Returns errors with the User data specified
+          content:
+            application/json:
+              example:
+                {
+                  "status": "error",
+                  "data": {
+                    "id": null,
+                    "provider": "email",
+                    "uid": "",
+                    "allow_password_change": false,
+                    "first_name": "youssef",
+                    "last_name": "fares",
+                    "city": "Cairo",
+                    "country": "Egypt",
+                    "date_of_birth": "1996-03-20",
+                    "email": "youssefares@egsl.com",
+                    "gender": "male",
+                    "image": "someplace",
+                    "bio": null,
+                    "is_reviewer": false,
+                    "created_at": null,
+                    "updated_at": null
+                  },
+                  "errors": {
+                    "email": [
+                      "has already been taken",
+                      "has already been taken"
+                    ],
+                    "full_messages": [
+                      "Email has already been taken",
+                      "Email has already been taken"
+                    ]
+                  }
+                }
+
+        '200':
+          description: Returns a user object inside and sends confirmation email to email specified.
+          content:
+            application/json:
+              example:
+                {
+                  "status": "success",
+                  "data": {
+                    "id": 5,
+                    "provider": "email",
+                    "uid": "youssefares@egsl.com",
+                    "allow_password_change": false,
+                    "first_name": "youssef",
+                    "last_name": "fares",
+                    "city": "Cairo",
+                    "country": "Egypt",
+                    "date_of_birth": "1996-03-20",
+                    "email": "youssefares@egsl.com",
+                    "gender": "male",
+                    "image": "someplace",
+                    "bio": null,
+                    "is_reviewer": false,
+                    "created_at": "2019-02-26T20:45:27.082Z",
+                    "updated_at": "2019-02-26T20:45:27.082Z"
+                  }
+                }
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: int
+        email:
+          type: string
+        uid:
+          type: string
+        provider:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        date_of_birth:
+          type: date
+        gender:
+          type: string
+        image:
+          type: string
+        bio:
+          type: string
+        is_reviewer:
+          type: boolean
