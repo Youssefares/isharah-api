@@ -26,7 +26,7 @@ class WordsController < ApplicationController
     @word = Word.find_by(id: params[:id])
     if @word
       @word.destroy
-      render json: "Destroyed", status: :ok
+      render json: 'Destroyed.', status: :ok
     else
       render json: 'Record not found.', status: :not_found
     end
