@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(version: 2019_02_28_120749) do
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
+  create_table "categories_words", id: false, force: :cascade do |t|
+    t.bigint "word_id"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_categories_words_on_category_id"
+    t.index ["word_id"], name: "index_categories_words_on_word_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -67,13 +74,6 @@ ActiveRecord::Schema.define(version: 2019_02_28_120749) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "words_categories", id: false, force: :cascade do |t|
-    t.bigint "word_id"
-    t.bigint "category_id"
-    t.index ["category_id"], name: "index_words_categories_on_category_id"
-    t.index ["word_id"], name: "index_words_categories_on_word_id"
   end
 
 end
