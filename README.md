@@ -16,9 +16,11 @@ Then run the following 3 commands (You may need to `sudo`):
 3. **`docker-compose run web rails db:schema:load`** this runs all migrations to load the schema in `schema.rb` and all the tables we have in it so far.
 4. **`docker-compose up`** this brings the server up and any other needed background services
 
-If all everything went well, the terminal should say "Listening on port 3000" or something of that sort which means the server is running. If you open your browser and go to `localhost:3000` you should see a Not Found response.
+If all everything went well, the terminal should say "Listening on port 3000" or something of that sort which means the server is running. If you open your browser and go to `localhost:3000` you should see a "Hello" string and 200 OK response.
 
 If you go to `localhost:1080`, you should see the mailcatcher interface which we will use to see the mails our api sends in the development environment. (such as signup confirmation, etc.)
+
+If you go to `localhost:3030/?url=swagger.yml#/`, you should see the Swagger-UI documentation for our rails API.
 
 ## Notes for development
 ### Debugging
