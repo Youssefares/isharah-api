@@ -19,6 +19,9 @@ gem 'puma', '~> 3.11'
 # Authentication
 gem 'devise_token_auth'
 
+# Serialization
+gem 'active_model_serializers'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

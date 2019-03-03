@@ -25,6 +25,10 @@ AllCops:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
+Metrics/MethodLength:
+  Max: 20
+Metrics/AbcSize:
+  Max: 20
 Style/Documentation:
   Enabled: false
 
