@@ -6,7 +6,27 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  validates :first_name, :last_name, :gender,
-            :city, :country, :date_of_birth, presence: true
+  validates :city, :country, :date_of_birth, :first_name,
+            :gender, :last_name, :type, presence: true
   validates :email, presence: true, uniqueness: true
+  validate :type_is_valid_model_name
+
+  def self.roles
+    %w[Admin Reviewer User]
+  end
+
+  def type_is_valid_model_name
+    return if User.roles.include?(type)
+
+    errors.add(:type, 'Type must be a a valid User class or subclass')
+  end
+
+  # Convenience methods
+  def reviewer?
+    type == 'Reviewer'
+  end
+
+  def admin?
+    type == 'Admin'
+  end
 end

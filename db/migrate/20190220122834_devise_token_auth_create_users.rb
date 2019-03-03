@@ -49,7 +49,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
       t.text :bio
 
       ## Permissions
-      t.boolean :is_reviewer, default: false, null: false
+      t.string :type, null: false, default: 'User'
 
       ## Tokens
       t.json :tokens

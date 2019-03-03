@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2019_02_28_120749) do
     t.string "gender", null: false
     t.text "image"
     t.text "bio"
-    t.boolean "is_reviewer", default: false, null: false
+    t.string "type", default: "User", null: false
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
