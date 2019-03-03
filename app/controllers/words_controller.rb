@@ -11,12 +11,19 @@ class WordsController < ApplicationController
     if @word
       render json: @word, status: :ok
     else
-      render json: 'Record not found.', status: :not_found
+      render json: { 'id': ['Record not found.'] }, status: :not_found
     end
   end
 
   def create
-    @word = Word.create(name: params[:name])
+    categories = Category.where(name: params[:categories])
+    if params[:categories].present? &&
+       (params[:categories] - categories.pluck(:name)).present?
+      render json: { 'categories': ['Invalid category.'] },
+             status: :unprocessable_entity
+      return
+    end
+    @word = Word.create(name: params[:name], categories: categories)
     if @word.save
       render json: @word, status: :ok
     else
