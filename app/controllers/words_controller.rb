@@ -1,4 +1,6 @@
 class WordsController < ApplicationController
+  before_action :authenticate_user!, only: %i[create destroy]
+
   def index
     @words = Word.all
     render json: @words, status: :ok

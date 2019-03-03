@@ -14,7 +14,35 @@ tags:
     description: Request password reset email, get password reset token, reset password.
   - name: Root
     description: Get API root for testing and development.
+
 paths:
+  /:
+    get:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Root
+      operationId: root
+      summary: root
+      responses:
+        '200':
+          description: returns "Hello"
+          content:
+            application/json:
+              example:
+                "Hello"
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
   /auth/:
     post:
       tags:
@@ -26,30 +54,6 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-                password_confirmation:
-                  type: string
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                image:
-                  type: string
-                gender:
-                  type: string
-                city:
-                  type: string
-                country:
-                  type: string
-                date_of_birth:
-                  type: string
-                confirm_success_url:
-                  type: string
               example:
                 email: youssefares@egsl.com
                 password: password
@@ -99,9 +103,8 @@ paths:
                     ]
                   }
                 }
-
         '200':
-          description: Returns a user object inside and sends confirmation email to email specified.
+          description: Returns a user object inside "data" and sends confirmation email to email specified.
           content:
             application/json:
               example:
@@ -126,34 +129,474 @@ paths:
                     "updated_at": "2019-02-26T20:45:27.082Z"
                   }
                 }
+    put:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - User Account and Session
+      operationId: update-account
+      summary: update-account
+      requestBody:
+        description: >-
+          Contains user fields to be updated.
+          User can update password, but has to provide current_password, password and
+          password_confirmation fields as inputs in request body.
+          User email can also be editted. (FIXME:Is this a good idea?)
+        content:
+          application/json:
+            schema:
+              example:
+                first_name: editted_youssef
+                last_name: editted_fares
+                image: editted_someplace
+                gender: male
+                city: Cairo
+                bio: This is my new editted bio.
+                country: Egypt
+                date_of_birth: 20/03/1996
+      responses:
+        '404':
+          description: User not found
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "User not found."
+                  ],
+                  "status": "error"
+                }
+        '422':
+          description: >-
+            Returns errors with the User data specified.
+          content:
+            application/json:
+              example:
+                {
+                  "status": "error",
+                  "errors": {
+                    "first_name": [
+                      "can't be blank"
+                    ],
+                    "full_messages": [
+                      "First name can't be blank"
+                    ]
+                  }
+                }
+        '200':
+          description: Returns the updated user object inside "data"
+          content:
+            application/json:
+              example:
+                {
+                  "status": "success",
+                  "data": {
+                    "id": 5,
+                    "provider": "email",
+                    "uid": "youssefares@egsl.com",
+                    "allow_password_change": false,
+                    "first_name": "editted_youssef",
+                    "last_name": "editted_fares",
+                    "city": "Cairo",
+                    "country": "Egypt",
+                    "date_of_birth": "1996-03-20",
+                    "email": "youssefares@egsl.com",
+                    "gender": "male",
+                    "image": "edittedsomeplace",
+                    "bio": "This is my new editted bio.",
+                    "is_reviewer": false,
+                    "created_at": "2019-02-26T20:45:27.082Z",
+                    "updated_at": "2019-02-26T20:45:27.082Z"
+                  }
+                }
+    delete:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - User Account and Session
+      operationId: delete-account
+      summary: delete-account
+      responses:
+        '200':
+          description: Successfully deleted user
+          content:
+            application/json:
+              example:
+                {
+                  "status": "success",
+                  "message": "Account with UID 'yousseffares@egsl.com' has been destroyed."
+                }
+        '404':
+          description: User not found
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "Unable to locate account for destruction."
+                  ],
+                  "status": "error"
+                }
+  /auth/sign_in/:
+    post:
+      tags:
+        - User Account and Session
+      operationId: sign-in
+      summary: sign-in
+      requestBody:
+        description: Contains user email and password
+        content:
+          application/json:
+            schema:
+              example:
+                {
+                  "email": "youssefares@egsl.com",
+                  "password": "password"
+                }
+      responses:
+        '401':
+          description: Unauthorized (Wrong credentials or unconfirmed email)
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "Invalid login credentials. Please try again."
+                  ]
+                }
+        '200':
+          description: >-
+            Returns a user object inside "data" and token information (to be sent in 
+            the headers of further requests where authentication is required) in
+            headers.
+          headers:
+            access-token:
+              schema:
+                type: string
+              description: Access token string
+            client:
+              schema:
+                type: string
+              description: Info about api client
+            uid:
+              schema:
+                type: string
+              description: User identifier (email or omniauth token)
+          content:
+            application/json:
+              example:
+                {
+                  "status": "success",
+                  "data": {
+                    "id": 5,
+                    "provider": "email",
+                    "uid": "youssefares@egsl.com",
+                    "allow_password_change": false,
+                    "first_name": "youssef",
+                    "last_name": "fares",
+                    "city": "Cairo",
+                    "country": "Egypt",
+                    "date_of_birth": "1996-03-20",
+                    "email": "youssefares@egsl.com",
+                    "gender": "male",
+                    "image": "someplace",
+                    "bio": null,
+                    "is_reviewer": false,
+                    "created_at": "2019-02-26T20:45:27.082Z",
+                    "updated_at": "2019-02-26T20:45:27.082Z"
+                  }
+                }
+  /auth/validate_token:
+    get:
+      security:
+        - security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - User Account and Session
+      operationId: validate-token
+      summary: validate-token (can be used as to view profile)
+      responses:
+        '200':
+          description: Valid authentication headers
+          content:
+            application/json:
+              example:
+                {
+                  "success": true,
+                  "data": {
+                    "id": 1,
+                    "provider": "email",
+                    "uid": "yousseffares@egsl.com",
+                    "allow_password_change": false,
+                    "first_name": "joe",
+                    "last_name": "fares",
+                    "city": "Cairo",
+                    "country": "Egypt",
+                    "date_of_birth": "1996-03-20",
+                    "email": "yousseffares@egsl.com",
+                    "gender": "male",
+                    "image": null,
+                    "bio": null,
+                    "is_reviewer": false
+                  }
+                }
+        '401':
+          description: Invalid authentication headers
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "Invalid login credentials"
+                  ]
+                }
+  /auth/sign_out:
+    delete:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - User Account and Session
+      operationId: sign-out
+      summary: sign-out
+      responses:
+        '200':
+          description: Successfully signed out user
+          content:
+            application/json:
+              example:
+                {
+                  "status": "success",
+                }
+        '404':
+          description: User not found
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "User was not found or was not logged in."
+                  ]
+                }
+  /auth/password/:
+    post:
+      tags:
+        - Password
+      operationId: request-password-reset
+      summary: request-password-reset
+      requestBody:
+        description: Contains user email and url to send the user to, to complete password reset.
+        content:
+          application/json:
+            schema:
+              example:
+                {
+                  "email": "youssefares@egsl.com",
+                  "redirect_url": "http://localhost:3000/"
+                }
+      responses:
+        '401':
+          description: Email not provided.
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "You must provide an email address."
+                  ]
+                }
+        '200':
+          description: Email sent
+          content:
+            application/json:
+              example:
+                {
+                  "success": true,
+                  "message": "An email has been sent to 'newemail@egsl.com' containing instructions for resetting your password."
+                }
+        '404':
+          description: User not found
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "Unable to find user with email 'newemail@egssddl.com'."
+                  ]
+                }
+    put:
+      tags:
+        - Password
+      operationId: password-reset
+      summary: password-reset
+      description: >-
+        Note that this is another way to edit user password. The first was PUT /auth/ which
+        requires you to know the former password. This endpoint however requires the correct
+        authentication headers only, with access-token = a password reset token which is
+        sent in the password reset email as part of the redirect link. 
+        Optionally you can use this endpoint to reset password by knowing your 
+        current_password as well.
+        You may only use your password reset token once to reset your password.
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      parameters:
+        - in: query
+          name: password
+          schema:
+            type: string
+          required: true
+          description: new password
+        - in: query
+          name: password_confirmation
+          schema:
+            type: string
+          required: true
+          description: new password confirmation
+        - in: query
+          name: current_password
+          schema:
+            type: string
+          description: >-
+            user current password (not required when using password reset token as access token)
+      responses:
+        '401':
+          description: Unauthorized (invalid authentication headers)
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": [
+                    "Unauthorized"
+                  ]
+                }
+        '422':
+          description: Wrong current_password or invalid fields password or password_confirmation.
+          content:
+            application/json:
+              example:
+                {
+                  "success": false,
+                  "errors": {
+                    "password_confirmation": [
+                      "doesn't match Password"
+                    ],
+                    "current_password": [
+                      "is invalid"
+                    ],
+                    "full_messages": [
+                      "Password confirmation doesn't match Password",
+                      "Current password is invalid"
+                    ]
+                  }
+                }
+        '200':
+          description: Password changed
+          content:
+            application/json:
+              example:
+                {
+                  "success": true,
+                  "data": {
+                    "id": 10,
+                    "provider": "email",
+                    "allow_password_change": false,
+                    "email": "newemail@egsl.com",
+                    "first_name": "youssef",
+                    "last_name": "fares",
+                    "gender": "male",
+                    "city": "Cairo",
+                    "country": "Egypt",
+                    "date_of_birth": "1996-03-20",
+                    "uid": "newemail@egsl.com",
+                    "image": "someplace",
+                    "bio": null,
+                    "is_reviewer": false,
+                    "created_at": "2019-03-01T13:59:30.243Z",
+                    "updated_at": "2019-03-01T16:29:01.012Z"
+                  },
+                  "message": "Your password has been successfully updated."
+                }
+  /auth/password/edit:
+    description: This endpoint is usually hit only by clicking on the link in the password reset email.
+    get:
+      tags:
+        - Password
+      operationId: get-password-reset-token
+      summary: get-password-reset-token
+      parameters:
+        - in: query
+          name: redirect_url
+          schema:
+            type: string
+          required: true
+          description: >-
+            Should point to a form where the user can fill password and password_confirmation fields. 
+        - in: query
+          name: reset_password_token
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: >-
+            The user is redirected successfully to redirect_url specified when the
+            password reset request was made (POST /auth/password/). The response
+            will be that of the redirect_url.
+            The response headers will contain the authentication headers for which
+            access-token will equal the one-time password-reset token.
+          headers:
+            access-token:
+              schema:
+                type: string
+              description: Access token string
+            client:
+              schema:
+                type: string
+              description: Info about api client
+            uid:
+              schema:
+                type: string
+              description: User identifier (email or omniauth token)
+        '404':
+          description: Invalid (or alread used once) password_reset_token
+          content:
+            application/json:
+              example:
+                {
+                  "status": 404,
+                  "error": "Not Found"
+                }
 components:
-  schemas:
-    user:
-      type: object
-      properties:
-        id:
-          type: int
-        email:
-          type: string
-        uid:
-          type: string
-        provider:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        city:
-          type: string
-        country:
-          type: string
-        date_of_birth:
-          type: date
-        gender:
-          type: string
-        image:
-          type: string
-        bio:
-          type: string
-        is_reviewer:
-          type: boolean
+  securitySchemes:
+    access-token:
+      type: apiKey
+      in: header
+      name: access-token
+      description: Access token string
+    client:
+      type: apiKey
+      in: header
+      name: client
+      description: Info about API client
+    uid:
+      type: apiKey
+      in: header
+      name: uid
+      description: User identifier (email or omniauth token)

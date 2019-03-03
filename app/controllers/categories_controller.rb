@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  before_action :authenticate_user!, only: %i[create destroy]
+
   def index
     @categories = Category.all
     render json: @categories, status: :ok
