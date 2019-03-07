@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :gestures
+  has_many :reviews, foreign_key: :reviewer_id
+
   validates :city, :country, :date_of_birth, :first_name,
             :gender, :last_name, :type, presence: true
   validates :email, presence: true, uniqueness: true
