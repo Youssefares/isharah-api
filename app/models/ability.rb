@@ -25,6 +25,8 @@ class Ability
 
   def contributer_abilities
     visitor_abilities
+    can :index_unreviewed, Gesture
+    can :review, Gesture
   end
 
   def visitor_abilities
