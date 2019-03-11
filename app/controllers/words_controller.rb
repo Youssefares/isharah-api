@@ -7,7 +7,7 @@ class WordsController < ApplicationController
     else
       if params[:category].present?
         @words = Word.joins(:categories).references(:categories)
-                     .where(categories: { name: params[:category] })
+                     .where(categories: { name: params[:category] }).distinct
       end
       if params[:query].present?
         if @words.present?
@@ -35,6 +35,10 @@ class WordsController < ApplicationController
 
   def create
     categories = Category.where(name: params[:categories])
+    parent_ids = categories.select(:parent_id)
+    parents = Category.where(id: parent_ids)
+    categories = categories.or(parents)
+
     if params[:categories].present? &&
        (params[:categories] - categories.pluck(:name)).present?
       render json: { 'categories': ['Invalid category.'] },
