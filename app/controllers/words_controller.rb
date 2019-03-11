@@ -3,8 +3,26 @@ class WordsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @words = Word.all
-    render json: @words, status: :ok
+    if params[:category].nil? && params[:query].nil?
+      @words = Word.all
+    else
+      if params[:category].present?
+        @words = Word.joins(:categories).references(:categories)
+                     .where(categories: { name: params[:category] })
+      end
+      if params[:query].present?
+        if @words.present?
+          @words = @words.where('words.name LIKE ?', "%#{params[:query]}%")
+        elsif params[:category].nil?
+          @words = Word.where('words.name LIKE ?', "%#{params[:query]}%")
+        end
+      end
+    end
+    if @words.nil?
+      render json: 'Record not found.', status: :not_found
+    else
+      render json: @words, status: :ok
+    end
   end
 
   def show
