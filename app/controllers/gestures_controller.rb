@@ -27,7 +27,14 @@ class GesturesController < ApplicationController
     page = params[:page] || 1
 
     @gestures = Gesture.unreviewed.paginate(page: page, per_page: per_page)
-    render json: @gestures, status: :ok
+    gestures_count = Gesture.unreviewed.count
+    render json: {
+      gestures: @gestures,
+      page_meta: {
+        total_count: gestures_count,
+        total_pages: (gestures_count / per_page.to_f).ceil
+      }
+    }, status: :ok
   end
 
   def review
