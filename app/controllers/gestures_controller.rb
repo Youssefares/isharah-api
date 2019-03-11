@@ -1,12 +1,20 @@
 class GesturesController < ApplicationController
-  before_action :authenticate_user!, only: %i[review]
+  before_action :authenticate_user!, only: %i[review create index_unreviewed]
   load_and_authorize_resource
 
-  # TODOOOOO
-  # Strong params
-
   def create
-    @gesture = Gesture.create(name: params[:name])
+    # TODO: replace this with word creation logic if we decide to.
+    @word = Word.find_by(name: params[:word])
+    unless @word
+      render json: 'Word record not found',
+             status: :not_found
+      return
+    end
+    @gesture = Gesture.new(
+      user: current_user,
+      word: @word,
+      video: params[:video]
+    )
     if @gesture.save
       render json: @gesture, status: :ok
     else
@@ -15,8 +23,10 @@ class GesturesController < ApplicationController
   end
 
   def index_unreviewed
-    # TODO: pagination
-    @gestures = Gesture.unreviewed
+    per_page = params[:per_page] || 5
+    page = params[:page] || 1
+
+    @gestures = Gesture.unreviewed.paginate(page: page, per_page: per_page)
     render json: @gestures, status: :ok
   end
 
@@ -26,16 +36,19 @@ class GesturesController < ApplicationController
     unless @gesture
       render json: 'Record not found or already reviewed',
              status: :not_found
+      return
     end
 
     # Create review
     @review = Review.new(
       reviewer: current_user,
       gesture: @gesture,
-      accepted: params[:accepted]
+      accepted: params[:accepted].downcase, # For some reason, "False" is true.
+      comment: params[:comment]
     )
     unless @review.save
       render json: @review.errors, status: :unprocessable_entity
+      return
     end
 
     # Make gesture primary if it's the first gesture for this word

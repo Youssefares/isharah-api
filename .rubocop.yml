@@ -15,7 +15,8 @@ AllCops:
   # Exclude some files
   Exclude:
     - 'vendor/**/*'
-    - 'db/**/*'
+    - 'db/migrate/**/*'
+    - 'db/schema.rb'
     - 'tmp/**/*'
     - 'bin/**/*'
     - 'config/**/*'
@@ -26,9 +27,9 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*
 Metrics/MethodLength:
-  Max: 20
+  Max: 30
 Metrics/AbcSize:
-  Max: 20
+  Max: 30
 Style/Documentation:
   Enabled: false
 

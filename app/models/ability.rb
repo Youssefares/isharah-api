@@ -21,12 +21,13 @@ class Ability
 
   def reviewer_abilities
     contributer_abilities
+    can :review, Gesture
+    can :index_unreviewed, Gesture
   end
 
   def contributer_abilities
     visitor_abilities
-    can :index_unreviewed, Gesture
-    can :review, Gesture
+    can :create, Gesture
   end
 
   def visitor_abilities
