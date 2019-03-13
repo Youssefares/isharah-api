@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
-  load_and_authorize_resource
+  authorize_resource
 
   def index
     @categories = Category.all
@@ -17,7 +17,7 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    @category = Category.create(name: params[:name])
+    @category = Category.create(name: create_params[:name])
     if @category.save
       render json: @category, status: :ok
     else
@@ -33,5 +33,11 @@ class CategoriesController < ApplicationController
     else
       render json: 'Record not found.', status: :not_found
     end
+  end
+
+  private
+
+  def create_params
+    params.permit(:name)
   end
 end

@@ -1,6 +1,6 @@
 class WordsController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
-  load_and_authorize_resource
+  authorize_resource
 
   def index
     if params[:category].nil? && params[:query].nil?
@@ -35,18 +35,18 @@ class WordsController < ApplicationController
   end
 
   def create
-    categories = Category.where(name: params[:categories])
+    categories = Category.where(name: create_params[:categories])
     parent_ids = categories.select(:parent_id)
     parents = Category.where(id: parent_ids)
     categories = categories.or(parents)
 
-    if params[:categories].present? &&
-       (params[:categories] - categories.pluck(:name)).present?
+    if create_params[:categories].present? &&
+       (create_params[:categories] - categories.pluck(:name)).present?
       render json: { 'categories': ['Invalid category.'] },
              status: :unprocessable_entity
       return
     end
-    @word = Word.create(name: params[:name], categories: categories)
+    @word = Word.create(name: create_params[:name], categories: categories)
     if @word.save
       render json: @word, status: :ok
     else
@@ -62,5 +62,11 @@ class WordsController < ApplicationController
     else
       render json: 'Record not found.', status: :not_found
     end
+  end
+
+  private
+
+  def create_params
+    params.permit(:name, categories: [])
   end
 end
