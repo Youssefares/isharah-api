@@ -14,8 +14,220 @@ tags:
     description: Request password reset email, get password reset token, reset password.
   - name: Root
     description: Get API root for testing and development.
+  - name: Gestures and Reviews
+    description: Index unreviewed gestures, review pending gesture, gesture creation
 
 paths:
+  /gestures/unreviewed/:
+    get:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Gestures and Reviews
+      operationId: index-unreviewed-gestures
+      summary: index-unreviewed-gestures
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: int
+          required: false
+          default: 1
+          description: page number (defaults to 1)
+        - in: query
+          name: per_page
+          schema:
+            type: int
+          required: false
+          default: 5
+          description: number of gestures per page (defaults to 5)
+      responses:
+        '200':
+          description: >-
+            returns at most 5 gesture records (*TODO* along with their videos)
+            Also returns pagination-related metadata.
+          content:
+            application/json:
+              example:
+                {
+                  "gestures": [
+                    {
+                      "id": 1,
+                      "word_id": 5,
+                      "user_id": 3,
+                      "primary_dictionary_gesture": true,
+                      "created_at": "2019-03-11T21:58:18.110Z",
+                      "updated_at": "2019-03-11T21:58:18.176Z"
+                    },
+                    {
+                      "id": 3,
+                      "word_id": 2,
+                      "user_id": 1,
+                      "primary_dictionary_gesture": false,
+                      "created_at": "2019-03-11T23:01:04.091Z",
+                      "updated_at": "2019-03-11T23:01:04.097Z"
+                    }
+                  ],
+                  "page_meta": {
+                    "total_count": 3,
+                    "total_pages": 1
+                  }
+                }
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
+  /gestures/:
+    post:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Gestures and Reviews
+      operationId: create-gesture
+      summary: create-gesture
+      requestBody:
+        description: >-
+          Contains the string of the word to create the gesture for
+          and the gesture video to be uploaded to create gesture record.
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                word:
+                  type: string
+                video:
+                  type: string
+                  format: binary
+              example:
+                word: أحمر
+                video: أحمر.mp4
+      responses:
+        '200':
+          description: uploads video and returns gesture data.
+          content:
+            application/json:
+              example:
+                {
+                  "id": 4,
+                  "word_id": 2,
+                  "user_id": 1,
+                  "primary_dictionary_gesture": false,
+                  "created_at": "2019-03-13T20:11:25.539Z",
+                  "updated_at": "2019-03-13T20:11:25.542Z"
+                }
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
+        '404':
+          description: Word record not found
+          content:
+            application/json:
+              example:
+                "Wordrecordnotfound"
+
+  /gestures/{id}/review/:
+    post:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Gestures and Reviews
+      operationId: review-gesture
+      summary: review-gesture
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: the id of the gesture to be reviewed.
+      requestBody:
+        description: contains review result
+        content:
+          application/json:
+            schema:
+              example:
+                {
+                  "accepted": "false",
+                  "comment": "Bad lighting"
+                }
+      responses:
+        '201':
+          description: reviews gesture and returns review object
+          content:
+            application/json:
+              example:
+                {
+                  "id": 3,
+                  "gesture_id": 2,
+                  "reviewer_id": 2,
+                  "accepted": false,
+                  "comment": "Bad lighting",
+                  "created_at": "2019-03-13T23:22:12.199Z",
+                  "updated_at": "2019-03-13T23:22:12.199Z"
+                }
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
+        '404':
+          description: Record not found or already reviewed
+          content:
+            application/json:
+              example:
+                Recordnotfoundoralreadyreviewed
+
   /:
     get:
       security:
