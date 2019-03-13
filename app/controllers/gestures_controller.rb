@@ -29,6 +29,8 @@ class GesturesController < ApplicationController
     @gestures = Gesture.unreviewed.paginate(page: page, per_page: per_page)
     gestures_count = Gesture.unreviewed.count
     render json: {
+      # TODO: @gestures should include video
+      # (to be fixed as soon as we figure out serialization)
       gestures: @gestures,
       page_meta: {
         total_count: gestures_count,
