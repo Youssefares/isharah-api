@@ -3,26 +3,17 @@ class WordsController < ApplicationController
   authorize_resource
 
   def index
-    if params[:category].nil? && params[:query].nil?
-      @words = Word.all
-    else
-      if params[:category].present?
-        @words = Word.joins(:categories).references(:categories)
+    @words = Word.where(nil)
+
+    if params[:category].present?
+      @words = @words.joins(:categories).references(:categories)
                      .where(categories: { name: params[:category] }).distinct
-      end
-      if params[:query].present?
-        if @words.present?
-          @words = @words.where('words.name LIKE ?', "%#{params[:query]}%")
-        elsif params[:category].nil?
-          @words = Word.where('words.name LIKE ?', "%#{params[:query]}%")
-        end
-      end
     end
-    if @words.nil?
-      render json: 'Record not found.', status: :not_found
-    else
-      render json: @words, status: :ok
+    if params[:query].present?
+      @words = @words.where('words.name LIKE ?', '%' + params[:query] + '%')
     end
+
+    render json: @words, status: :ok
   end
 
   def show
@@ -36,10 +27,6 @@ class WordsController < ApplicationController
 
   def create
     categories = Category.where(name: create_params[:categories])
-    parent_ids = categories.select(:parent_id)
-    parents = Category.where(id: parent_ids)
-    categories = categories.or(parents)
-
     if create_params[:categories].present? &&
        (create_params[:categories] - categories.pluck(:name)).present?
       render json: { 'categories': ['Invalid category.'] },
