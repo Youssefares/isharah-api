@@ -1,9 +1,18 @@
 class WordsController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
-  load_and_authorize_resource
+  authorize_resource
 
   def index
-    @words = Word.all
+    @words = Word.where(nil)
+
+    if params[:category].present?
+      @words = @words.joins(:categories).references(:categories)
+                     .where(categories: { name: params[:category] }).distinct
+    end
+    if params[:query].present?
+      @words = @words.where('words.name LIKE ?', '%' + params[:query] + '%')
+    end
+
     render json: @words, status: :ok
   end
 
@@ -17,14 +26,14 @@ class WordsController < ApplicationController
   end
 
   def create
-    categories = Category.where(name: params[:categories])
-    if params[:categories].present? &&
-       (params[:categories] - categories.pluck(:name)).present?
+    categories = Category.where(name: create_params[:categories])
+    if create_params[:categories].present? &&
+       (create_params[:categories] - categories.pluck(:name)).present?
       render json: { 'categories': ['Invalid category.'] },
              status: :unprocessable_entity
       return
     end
-    @word = Word.create(name: params[:name], categories: categories)
+    @word = Word.create(name: create_params[:name], categories: categories)
     if @word.save
       render json: @word, status: :ok
     else
@@ -40,5 +49,11 @@ class WordsController < ApplicationController
     else
       render json: 'Record not found.', status: :not_found
     end
+  end
+
+  private
+
+  def create_params
+    params.permit(:name, categories: [])
   end
 end
