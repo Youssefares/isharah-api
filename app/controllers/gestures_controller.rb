@@ -1,10 +1,10 @@
 class GesturesController < ApplicationController
   before_action :authenticate_user!, only: %i[review create index_unreviewed]
-  load_and_authorize_resource
+  authorize_resource
 
   def create
     # TODO: replace this with word creation logic if we decide to.
-    @word = Word.find_by(name: params[:word])
+    @word = Word.find_by(name: create_params[:word])
     unless @word
       render json: 'Word record not found',
              status: :not_found
@@ -13,7 +13,7 @@ class GesturesController < ApplicationController
     @gesture = Gesture.new(
       user: current_user,
       word: @word,
-      video: params[:video]
+      video: create_params[:video]
     )
     if @gesture.save
       render json: @gesture, status: :ok
@@ -39,7 +39,7 @@ class GesturesController < ApplicationController
 
   def review
     # Look for id in unreviewed gestures
-    @gesture = Gesture.unreviewed.find_by(id: params[:id])
+    @gesture = Gesture.unreviewed.find_by(id: review_params[:id])
     unless @gesture
       render json: 'Record not found or already reviewed',
              status: :not_found
@@ -50,8 +50,9 @@ class GesturesController < ApplicationController
     @review = Review.new(
       reviewer: current_user,
       gesture: @gesture,
-      accepted: params[:accepted].downcase, # For some reason, "False" is true.
-      comment: params[:comment]
+      # .downcase because for some reason, "False" is true.
+      accepted: review_params[:accepted].downcase,
+      comment: review_params[:comment]
     )
     unless @review.save
       render json: @review.errors, status: :unprocessable_entity
@@ -67,5 +68,15 @@ class GesturesController < ApplicationController
     end
 
     render json: @review, status: :created
+  end
+
+  private
+
+  def create_params
+    params.permit(:word, :video)
+  end
+
+  def review_params
+    params.permit(:id, :accepted, :comment)
   end
 end
