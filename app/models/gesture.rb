@@ -6,5 +6,7 @@ class Gesture < ApplicationRecord
   belongs_to :user
   has_one :review
 
-  validates :primary_dictionary_gesture, presence: true
+  scope :unreviewed, lambda {
+    left_outer_joins(:review).where(reviews: { id: nil })
+  }
 end

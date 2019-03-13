@@ -53,11 +53,11 @@ ActiveRecord::Schema.define(version: 2019_03_06_234323) do
 
   create_table "gestures", force: :cascade do |t|
     t.bigint "word_id"
-    t.bigint "user_id_id"
+    t.bigint "user_id"
     t.boolean "primary_dictionary_gesture", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id_id"], name: "index_gestures_on_user_id_id"
+    t.index ["user_id"], name: "index_gestures_on_user_id"
     t.index ["word_id"], name: "index_gestures_on_word_id"
   end
 

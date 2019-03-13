@@ -10,4 +10,8 @@ Rails.application.routes.draw do
 
   resources :categories, only: [:index, :show, :create, :destroy]
   resources :words, only: [:index, :show, :create, :destroy]
+
+  resources :gestures, only: [:create]
+  get '/gestures/unreviewed/', to: 'gestures#index_unreviewed'
+  post '/gestures/:id/review', to: 'gestures#review'
 end
