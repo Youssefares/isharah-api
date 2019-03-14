@@ -49,4 +49,3 @@ node_modules/
 
 # Ignore local activestorage files
 storage/**/**
-db/**/*
