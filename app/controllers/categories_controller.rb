@@ -12,7 +12,7 @@ class CategoriesController < ApplicationController
     if @category
       render json: @category, status: :ok
     else
-      render json: 'Record not found.', status: :not_found
+      render json: { 'id': 'Record not found.' }, status: :not_found
     end
   end
 
@@ -33,9 +33,9 @@ class CategoriesController < ApplicationController
     @category = Category.find_by(id: params[:id])
     if @category
       @category.destroy
-      render json: 'Destroyed.', status: :ok
+      render json: { 'result': 'Category destroyed.' }, status: :ok
     else
-      render json: 'Record not found.', status: :not_found
+      render json: { 'id': 'Record not found.' }, status: :not_found
     end
   end
 
