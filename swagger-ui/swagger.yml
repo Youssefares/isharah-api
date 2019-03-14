@@ -16,6 +16,10 @@ tags:
     description: Get API root for testing and development.
   - name: Gestures and Reviews
     description: Index unreviewed gestures, review pending gesture, gesture creation
+  - name: Words
+    description: Create a word, destroy a word, show a word, index words.
+  - name: Categories
+    description: Create a category, destroy a category, show a category, index categories.
 
 paths:
   /gestures/unreviewed/:
@@ -794,6 +798,372 @@ paths:
                 {
                   "status": 404,
                   "error": "Not Found"
+                }
+  /categories/:
+    post:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Categories
+      operationId: create-category
+      summary: create-category
+      requestBody:
+        description: Contains category's name, optional parent and/or children categories
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                {
+                  "name": "طيور",
+                  "parent": "حيوانات"
+                }
+      responses:
+        '200':
+          description: Category created successfully. Returns the created category.
+          content:
+            application/json:
+              example:
+                {
+                  "id": 5,
+                  "name": "طيور",
+                  "parent_id": 1,
+                  "created_at": "2019-03-14T18:38:19.059Z",
+                  "updated_at": "2019-03-14T18:38:19.059Z"
+                }
+        '422':
+          description: Name is invalid (e.g. used or empty). Returns the errors.
+          content:
+            application/json:
+              example:
+                {
+                  "name": [
+                    "has already been taken"
+                  ]
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
+    get:
+      tags:
+        - Categories
+      operationId: index-categories
+      summary: index-categories
+      responses:
+        '200':
+          description: Returns all available categories.
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "id": 1,
+                    "name": "حيوانات",
+                    "parent_id": nil,
+                    "created_at": "2019-03-14T18:38:19.059Z",
+                    "updated_at": "2019-03-14T18:38:19.059Z"
+                  },
+                  {
+                    "id": 5,
+                    "name": "طيور",
+                    "parent_id": 1,
+                    "created_at": "2019-03-14T18:38:19.059Z",
+                    "updated_at": "2019-03-14T18:38:19.059Z"
+                  }
+                ]
+  /categories/{id}/:
+    get:
+      tags:
+        - Categories
+      operationId: show-category
+      summary: show-category
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: the id of the category.
+      responses:
+        '200':
+          description: Returns the category with the given id.
+          content:
+            application/json:
+              example:
+                {
+                  "id": 5,
+                  "name": "طيور",
+                  "parent_id": 1,
+                  "created_at": "2019-03-14T18:38:19.059Z",
+                  "updated_at": "2019-03-14T18:38:19.059Z"
+                }
+        '404':
+          description: Category not found.
+          content:
+            application/json:
+              example:
+                {
+                  "id": "Record not found."
+                }
+    delete:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Categories
+      operationId: delete-category
+      summary: delete-category
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: the id of the category to be deleted.
+      responses:
+        '200':
+          description: Category deleted successfully.
+          content:
+            application/json:
+              example:
+                {
+                  "result": "Category destroyed."
+                }
+        '404':
+          description: Category not found.
+          content:
+            application/json:
+              example:
+                {
+                  "id": "Record not found."
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
+  /words/:
+    post:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Words
+      operationId: create-word
+      summary: create-word
+      requestBody:
+        description: Contains word's name and array of categories
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                {
+                  "name": "بطة",
+                  "categories": ["طيور"]
+                }
+      responses:
+        '200':
+          description: Word created successfully.
+          content:
+            application/json:
+              example:
+                {
+                  "id": 1,
+                  "name": "بطة",
+                  "categories": [
+                    {
+                      "name": "طيور"
+                    }
+                  ]
+                }
+        '422':
+          description: "Unprocessable entity: Invalid name or category."
+          content:
+            application/json:
+              example:
+                {
+                  "name": [
+                    "has already been taken"
+                  ]
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
+    get:
+      tags:
+        - Words
+      operationId: index-words
+      summary: index-words
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: array of strings
+          required: false
+          default: nil
+          description: category names
+        - in: query
+          name: query
+          schema:
+            type: string
+          required: false
+          default: nil
+          description: substring of the word(s).
+      responses:
+        '200':
+          description: Returns the filtered words.
+          content:
+            application/json:
+              example:
+                [
+                  {
+                    "id": 1,
+                    "name": "بطة",
+                    "categories": [
+                      {
+                        "name": "طيور"
+                      }
+                    ]
+                  }
+                ]
+  /words/{id}/:
+    get:
+      tags:
+        - Words
+      operationId: show-word
+      summary: show-word
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: the id of the word.
+      responses:
+        '200':
+          description: Returns requested word.
+          content:
+            application/json:
+              example:
+                {
+                  "id": 1,
+                  "name": "بطة",
+                  "categories": [
+                    {
+                      "name": "طيور"
+                    }
+                  ]
+                }
+        '404':
+          description: Word not found.
+          content:
+            application/json:
+              example:
+                {
+                  "id": "Record not found."
+                }
+    delete:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Words
+      operationId: delete-word
+      summary: delete-word
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: the id of the word to be deleted.
+      responses:
+        '200':
+          description: Word deleted successfully.
+          content:
+            application/json:
+              example:
+                {
+                  "result": "Word destroyed."
+                }
+        '404':
+          description: Word not found.
+          content:
+            application/json:
+              example:
+                {
+                  "id": "Record not found."
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
                 }
 components:
   securitySchemes:
