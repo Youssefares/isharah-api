@@ -853,7 +853,14 @@ paths:
                     "You need to sign in or sign up before continuing."
                   ]
                 }
-
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
     get:
       tags:
         - Categories
@@ -960,6 +967,14 @@ paths:
                     "You need to sign in or sign up before continuing."
                   ]
                 }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
   /words/:
     post:
       security:
@@ -1016,6 +1031,14 @@ paths:
                     "You need to sign in or sign up before continuing."
                   ]
                 }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
+                }
     get:
       tags:
         - Words
@@ -1035,7 +1058,7 @@ paths:
             type: string
           required: false
           default: nil
-          description: number of gestures per page (defaults to 5)
+          description: substring of the word(s).
       responses:
         '200':
           description: Returns the filtered words.
@@ -1133,6 +1156,14 @@ paths:
                   "errors": [
                     "You need to sign in or sign up before continuing."
                   ]
+                }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              example:
+                {
+                  "error": "You do not have permission to access this endpoint."
                 }
 components:
   securitySchemes:
