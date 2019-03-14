@@ -9,12 +9,14 @@ Then run the following 3 commands (You may need to `sudo`):
   docker-compose build
   docker-compose run web rails db:create
   docker-compose run web rails db:schema:load
+  docker-compose run web rails db:seed
   docker-compose up
   ```
 1. **`docker-compose build`** builds the docker container which contains all the project's actual dependencies and a bunch of other utilities, so it may take a while the first time, and anytime you break it really really badly.
 2. **`docker-compose run web rails db:create`** this creates the database
 3. **`docker-compose run web rails db:schema:load`** this runs all migrations to load the schema in `schema.rb` and all the tables we have in it so far.
-4. **`docker-compose up`** this brings the server up and any other needed background services
+4. Optionally **`docker-compose run web rails db:seed`** this seeds the database with the data in `db/seed.rb`.
+5. **`docker-compose up`** this brings the server up and any other needed background services
 
 If all everything went well, the terminal should say "Listening on port 3000" or something of that sort which means the server is running. If you open your browser and go to `localhost:3000` you should see a "Hello" string and 200 OK response.
 
