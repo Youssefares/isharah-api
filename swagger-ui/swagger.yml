@@ -801,6 +801,10 @@ paths:
                 }
   /categories/:
     post:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
       tags:
         - Categories
       operationId: create-category
@@ -838,7 +842,17 @@ paths:
                   "name": [
                     "has already been taken"
                   ]
-                } 
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
 
     get:
       tags:
@@ -903,6 +917,10 @@ paths:
                   "id": "Record not found."
                 }
     delete:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
       tags:
         - Categories
       operationId: delete-category
@@ -932,8 +950,22 @@ paths:
                 {
                   "id": "Record not found."
                 }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
   /words/:
     post:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
       tags:
         - Words
       operationId: create-word
@@ -974,22 +1006,36 @@ paths:
                     "has already been taken"
                   ]
                 }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
+                }
     get:
       tags:
         - Words
       operationId: index-words
       summary: index-words
-      requestBody:
-        description: Contains optional category name and/or word substring.
-        required: false
-        content:
-          application/json:
-            schema:
-              example:
-                {
-                  "category": ["sports"],
-                  "query": "ball"
-                }
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: array of strings
+          required: false
+          default: nil
+          description: category names
+        - in: query
+          name: query
+          schema:
+            type: string
+          required: false
+          default: nil
+          description: number of gestures per page (defaults to 5)
       responses:
         '200':
           description: Returns the filtered words.
@@ -1013,6 +1059,14 @@ paths:
         - Words
       operationId: show-word
       summary: show-word
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: the id of the word.
       responses:
         '200':
           description: Returns requested word.
@@ -1037,10 +1091,22 @@ paths:
                   "id": "Record not found."
                 }
     delete:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
       tags:
         - Words
       operationId: delete-word
       summary: delete-word
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 1
+          required: true
+          description: the id of the word to be deleted.
       responses:
         '200':
           description: Word deleted successfully.
@@ -1057,6 +1123,16 @@ paths:
               example:
                 {
                   "id": "Record not found."
+                }
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              example:
+                {
+                  "errors": [
+                    "You need to sign in or sign up before continuing."
+                  ]
                 }
 components:
   securitySchemes:
