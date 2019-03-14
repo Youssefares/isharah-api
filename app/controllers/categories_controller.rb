@@ -17,7 +17,11 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    @category = Category.create(name: create_params[:name])
+    parent = Category.find_by(name: create_params[:parent])
+    children = Category.where(name: create_params[:children])
+    @category = Category.create(
+      name: create_params[:name], parent: parent, children: children
+    )
     if @category.save
       render json: @category, status: :ok
     else
@@ -38,6 +42,6 @@ class CategoriesController < ApplicationController
   private
 
   def create_params
-    params.permit(:name)
+    params.permit(:name, :parent, children: [])
   end
 end
