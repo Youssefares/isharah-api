@@ -21,7 +21,7 @@ class WordsController < ApplicationController
     if @word
       render json: @word, status: :ok
     else
-      render json: { 'id': 'Record not found.' }, status: :not_found
+      render json: { 'error': 'Record not found.' }, status: :not_found
     end
   end
 
@@ -47,7 +47,7 @@ class WordsController < ApplicationController
       @word.destroy
       render json: { 'result': 'Word destroyed.' }, status: :ok
     else
-      render json: { 'id': 'Record not found.' }, status: :not_found
+      render json: { 'error': 'Record not found.' }, status: :not_found
     end
   end
 
