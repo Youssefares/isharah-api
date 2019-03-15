@@ -59,9 +59,9 @@ Word.create(
     { name: 'يمشي', categories: [Category.find_by(name: 'أفعال')]            },
     { name: 'أب',   categories: [Category.find_by(name: 'اﻷسرة')]            },
     { name: 'أم',   categories: [Category.find_by(name: 'اﻷسرة')]            },
-    { name: 'سمكة', categories: [Category.find_by(name: %w[مأكولات حيوانات])] },
     { name: 'أحمر', categories: [Category.find_by(name: 'ألوان')]            },
-    { name: 'أسود', categories: [Category.find_by(name: 'ألوان')]            }
+    { name: 'أسود', categories: [Category.find_by(name: 'ألوان')]            },
+    { name: 'سمكة', categories: Category.where(name: %w[مأكولات حيوانات]) }
   ]
 )
 

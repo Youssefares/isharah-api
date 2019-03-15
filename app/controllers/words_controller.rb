@@ -6,11 +6,13 @@ class WordsController < ApplicationController
     @words = Word.where(nil)
 
     if params[:category].present?
+      category_names = params[:category].split(/\s*,\s*/)
       @words = @words.joins(:categories).references(:categories)
-                     .where(categories: { name: params[:category] }).distinct
+                     .where(categories: { name: category_names }).distinct
     end
+
     if params[:query].present?
-      @words = @words.where('words.name LIKE ?', '%' + params[:query] + '%')
+      @words = @words.where('words.name LIKE ?', params[:query] + '%')
     end
 
     render json: @words, status: :ok
