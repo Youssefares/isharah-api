@@ -3,7 +3,7 @@ class WordsController < ApplicationController
   authorize_resource
 
   def index
-    @words = Word.includes(:categories).where(nil)
+    @words = Word.eager_load(:categories).where(nil)
 
     if params[:category].present?
       category_options = params[:category].split(/\s*,\s*/)

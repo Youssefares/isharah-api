@@ -6,4 +6,10 @@ class Word < ApplicationRecord
   validates :categories, presence: true
   validates :part_of_speech, presence: true,
                              inclusion: { in: %w[اسم فعل حرف] }
+
+  scope :having_public_gestures, lambda {
+    left_outer_joins(:gestures).where(
+      gestures: { primary_dictionary_gesture: true }
+    )
+  }
 end

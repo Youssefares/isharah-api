@@ -9,4 +9,10 @@ class Gesture < ApplicationRecord
   scope :unreviewed, lambda {
     left_outer_joins(:review).where(reviews: { id: nil })
   }
+  scope :accepted, lambda { |accepted|
+    left_outer_joins(:review).where(reviews: { accepted: accepted })
+  }
+  scope :dictionary, lambda {
+    where(primary_dictionary_gesture: true)
+  }
 end

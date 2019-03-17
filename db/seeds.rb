@@ -89,7 +89,10 @@ Word.create(
       categories: Category.where(name: %w[مأكولات حيوانات]) },
 
     { name: 'على', part_of_speech: 'حرف',
-      categories: [Category.find_by(name: 'حروف جر')] }
+      categories: [Category.find_by(name: 'حروف جر')] },
+
+    { name: 'السبت', part_of_speech: 'اسم',
+      categories: [Category.find_by(name: 'أيام')] }
   ]
 )
 
