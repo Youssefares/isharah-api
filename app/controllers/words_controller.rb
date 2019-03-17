@@ -3,25 +3,32 @@ class WordsController < ApplicationController
   authorize_resource
 
   def index
-    @words = Word.where(nil)
+    @words = Word.includes(:categories).where(nil)
 
     if params[:category].present?
-      category_names = params[:category].split(/\s*,\s*/)
+      category_options = params[:category].split(/\s*,\s*/)
       @words = @words.joins(:categories).references(:categories)
-                     .where(categories: { name: category_names }).distinct
+                     .where(categories: { name: category_options }).distinct
     end
 
     if params[:query].present?
       @words = @words.where('words.name LIKE ?', params[:query] + '%')
     end
 
-    render json: @words, status: :ok
+    if params[:part_of_speech].present?
+      part_of_speech_options = params[:part_of_speech].split(/\s*,\s*/)
+      @words = @words.where(words: { part_of_speech: part_of_speech_options })
+    end
+
+    words_json = WordSerializer.new(@words).serialized_json
+    render json: words_json, status: :ok
   end
 
   def show
     @word = Word.find_by(id: params[:id])
     if @word
-      render json: @word, status: :ok
+      word_json = WordSerializer.new(@word).serialized_json
+      render json: word_json, status: :ok
     else
       render json: { 'error': 'Record not found.' }, status: :not_found
     end
@@ -41,7 +48,8 @@ class WordsController < ApplicationController
       categories: categories
     )
     if @word.save
-      render json: @word, status: :ok
+      word_json = WordSerializer.new(@word).serialized_json
+      render json: word_json, status: :ok
     else
       render json: @word.errors, status: :unprocessable_entity
     end

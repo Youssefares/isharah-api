@@ -22,7 +22,7 @@ gem 'devise_token_auth'
 gem 'cancancan', '~> 2.3'
 
 # Serialization
-gem 'active_model_serializers'
+gem 'fast_jsonapi'
 
 # Pagination
 gem 'will_paginate', '~> 3.1.0'

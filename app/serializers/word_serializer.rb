@@ -1,8 +1,7 @@
-class WordSerializer < ActiveModel::Serializer
-  attributes :id, :name, :categories
-  def categories
-    object.categories.map do |category|
-      { name: category.name }
-    end
+class WordSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :name, :part_of_speech
+  attribute :categories do |word|
+    word.categories.pluck(:name)
   end
 end

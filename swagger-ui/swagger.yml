@@ -994,6 +994,7 @@ paths:
               example:
                 {
                   "name": "بطة",
+                  "part_of_speech": "اسم",
                   "categories": ["طيور"]
                 }
       responses:
@@ -1003,13 +1004,17 @@ paths:
             application/json:
               example:
                 {
-                  "id": 1,
-                  "name": "بطة",
-                  "categories": [
-                    {
-                      "name": "طيور"
+                  "data": {
+                    "id": "9",
+                    "type": "word",
+                    "attributes": {
+                      "name": "بطة",
+                      "part_of_speech": "اسم",
+                      "categories": [
+                        "طيور"
+                      ]
                     }
-                  ]
+                  }
                 }
         '422':
           description: "Unprocessable entity: Invalid name or category."
@@ -1048,34 +1053,53 @@ paths:
         - in: query
           name: category
           schema:
-            type: array of strings
+            type: string
           required: false
-          default: nil
-          description: category names
+          description: category names (comma separated)
         - in: query
           name: query
           schema:
             type: string
           required: false
-          default: nil
           description: substring of the word(s).
+        - in: query
+          name: part_of_speech
+          schema:
+            type: string
+          required: false
+          description: parts of speech (comma separated)
       responses:
         '200':
           description: Returns the filtered words.
           content:
             application/json:
               example:
-                [
-                  {
-                    "id": 1,
-                    "name": "بطة",
-                    "categories": [
-                      {
-                        "name": "طيور"
+                {
+                  "data": [
+                    {
+                      "id": "7",
+                      "type": "word",
+                      "attributes": {
+                        "name": "على",
+                        "part_of_speech": "حرف",
+                        "categories": [
+                          "حروف جر"
+                        ]
                       }
-                    ]
-                  }
-                ]
+                    },
+                    {
+                      "id": "8",
+                      "type": "word",
+                      "attributes": {
+                        "name": "في",
+                        "part_of_speech": "حرف",
+                        "categories": [
+                          "اﻷسرة"
+                        ]
+                      }
+                    }
+                  ]
+                }
   /words/{id}/:
     get:
       tags:
@@ -1097,13 +1121,17 @@ paths:
             application/json:
               example:
                 {
-                  "id": 1,
-                  "name": "بطة",
-                  "categories": [
-                    {
-                      "name": "طيور"
+                  "data": {
+                    "id": "9",
+                    "type": "word",
+                    "attributes": {
+                      "name": "بطة",
+                      "part_of_speech": "اسم",
+                      "categories": [
+                        "طيور"
+                      ]
                     }
-                  ]
+                  }
                 }
         '404':
           description: Word not found.
