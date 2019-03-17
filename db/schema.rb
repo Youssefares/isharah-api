@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2019_03_06_234323) do
     t.bigint "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name"
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
@@ -114,8 +115,11 @@ ActiveRecord::Schema.define(version: 2019_03_06_234323) do
 
   create_table "words", force: :cascade do |t|
     t.string "name", null: false
+    t.string "part_of_speech", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_words_on_name"
+    t.index ["part_of_speech"], name: "index_words_on_part_of_speech"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

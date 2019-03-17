@@ -8,6 +8,19 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lala land' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+ahmed = Admin.create(
+  first_name: 'Ahmed',
+  last_name: 'Elsayed',
+  city: 'Alexandria',
+  country: 'Egypt',
+  date_of_birth: '1984-03-20',
+  email: 'ahmed@egsl.com',
+  gender: 'male',
+  password: 'password',
+  password_confirmation: 'password'
+)
+ahmed.confirm
+
 youssef = User.create(
   first_name: 'Youssef',
   last_name: 'Fares',
@@ -50,18 +63,33 @@ tarek.confirm
 Category.create(
   [
     { name: 'أفعال' }, { name: 'اﻷسرة' }, { name: 'أُخرى' }, { name: 'أيام' },
-    { name: 'ألوان' }, { name: 'مأكولات' }, { name: 'حيوانات' }
+    { name: 'ألوان' }, { name: 'مأكولات' }, { name: 'حيوانات' },
+    { name: 'حروف جر' }
   ]
 )
 
 Word.create(
   [
-    { name: 'يمشي', categories: [Category.find_by(name: 'أفعال')]            },
-    { name: 'أب',   categories: [Category.find_by(name: 'اﻷسرة')]            },
-    { name: 'أم',   categories: [Category.find_by(name: 'اﻷسرة')]            },
-    { name: 'أحمر', categories: [Category.find_by(name: 'ألوان')]            },
-    { name: 'أسود', categories: [Category.find_by(name: 'ألوان')]            },
-    { name: 'سمكة', categories: Category.where(name: %w[مأكولات حيوانات]) }
+    { name: 'يمشي', part_of_speech: 'فعل',
+      categories: [Category.find_by(name: 'أفعال')] },
+
+    { name: 'أب', part_of_speech: 'اسم',
+      categories: [Category.find_by(name: 'اﻷسرة')] },
+
+    { name: 'أم', part_of_speech: 'اسم',
+      categories: [Category.find_by(name: 'اﻷسرة')] },
+
+    { name: 'أحمر', part_of_speech: 'اسم',
+      categories: [Category.find_by(name: 'ألوان')] },
+
+    { name: 'أسود', part_of_speech: 'اسم',
+      categories: [Category.find_by(name: 'ألوان')] },
+
+    { name: 'سمكة', part_of_speech: 'اسم',
+      categories: Category.where(name: %w[مأكولات حيوانات]) },
+
+    { name: 'على', part_of_speech: 'حرف',
+      categories: [Category.find_by(name: 'حروف جر')] }
   ]
 )
 

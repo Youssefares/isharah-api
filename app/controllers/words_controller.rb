@@ -35,7 +35,11 @@ class WordsController < ApplicationController
              status: :unprocessable_entity
       return
     end
-    @word = Word.create(name: create_params[:name], categories: categories)
+    @word = Word.create(
+      name: create_params[:name],
+      part_of_speech: create_params[:part_of_speech],
+      categories: categories
+    )
     if @word.save
       render json: @word, status: :ok
     else
@@ -56,6 +60,6 @@ class WordsController < ApplicationController
   private
 
   def create_params
-    params.permit(:name, categories: [])
+    params.permit(:name, :part_of_speech, categories: [])
   end
 end

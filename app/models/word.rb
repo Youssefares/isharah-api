@@ -4,4 +4,6 @@ class Word < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
   validates :categories, presence: true
+  validates :part_of_speech, presence: true,
+                             inclusion: { in: %w[اسم فعل حرف] }
 end
