@@ -52,8 +52,9 @@ class GesturesController < ApplicationController
     @review = Review.new(
       reviewer: current_user,
       gesture: @gesture,
-      # .downcase because for some reason, "False" is true.
-      accepted: review_params[:accepted].downcase,
+      # Trick to make "True", "true", true all equal true.
+      # TODO: move this to helper
+      accepted: review_params[:accepted].to_s.casecmp('true').zero?,
       comment: review_params[:comment]
     )
     unless @review.save

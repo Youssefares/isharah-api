@@ -189,7 +189,7 @@ paths:
             schema:
               example:
                 {
-                  "accepted": "false",
+                  "accepted": false,
                   "comment": "Bad lighting"
                 }
       responses:
@@ -231,6 +231,16 @@ paths:
             application/json:
               example:
                 Recordnotfoundoralreadyreviewed
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              example:
+                {
+                  "comment": [
+                    "can't be blank when accepted is false"
+                  ]
+                }
 
   /:
     get:
