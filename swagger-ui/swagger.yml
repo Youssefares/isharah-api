@@ -291,7 +291,7 @@ paths:
                 country: Egypt
                 date_of_birth: 20/03/1996
                 password_confirmation: password
-                confirm_success_url: /
+                confirm_success_url: http://localhost:3000/
       responses:
         '422':
           description: Returns errors with the User data specified
