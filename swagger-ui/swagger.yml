@@ -1067,17 +1067,31 @@ paths:
           required: false
           description: category names (comma separated)
         - in: query
-          name: query
+          name: q
           schema:
             type: string
           required: false
-          description: substring of the word(s).
+          description: prefix of the word(s).
         - in: query
           name: part_of_speech
           schema:
             type: string
           required: false
           description: parts of speech (comma separated)
+        - in: query
+          name: page
+          schema:
+            type: int
+          required: false
+          default: 1
+          description: page number (defaults to 1)
+        - in: query
+          name: per_page
+          schema:
+            type: int
+          required: false
+          default: 30
+          description: number of words per page (defaults to 30)
       responses:
         '200':
           description: Returns the filtered words.
@@ -1087,28 +1101,32 @@ paths:
                 {
                   "data": [
                     {
-                      "id": "7",
+                      "id": "2",
                       "type": "word",
                       "attributes": {
-                        "name": "على",
-                        "part_of_speech": "حرف",
+                        "name": "أب",
+                        "part_of_speech": "اسم",
                         "categories": [
-                          "حروف جر"
+                          "اﻷسرة"
                         ]
                       }
                     },
                     {
-                      "id": "8",
+                      "id": "3",
                       "type": "word",
                       "attributes": {
-                        "name": "في",
-                        "part_of_speech": "حرف",
+                        "name": "أم",
+                        "part_of_speech": "اسم",
                         "categories": [
                           "اﻷسرة"
                         ]
                       }
                     }
-                  ]
+                  ],
+                  "page_meta": {
+                    "total_count": 2,
+                    "total_pages": 1
+                  }
                 }
   /words/{id}/:
     get:

@@ -11,8 +11,8 @@ class WordsController < ApplicationController
                      .where(categories: { name: category_options }).distinct
     end
 
-    if params[:query].present?
-      @words = @words.where('words.name LIKE ?', params[:query] + '%')
+    if params[:q].present?
+      @words = @words.where('words.name LIKE ?', params[:q] + '%')
     end
 
     if params[:part_of_speech].present?
@@ -20,8 +20,19 @@ class WordsController < ApplicationController
       @words = @words.where(words: { part_of_speech: part_of_speech_options })
     end
 
-    words_json = WordSerializer.new(@words).serialized_json
-    render json: words_json, status: :ok
+    per_page = params[:per_page] || 30
+    page = params[:page] || 1
+
+    words_count = @words.count
+    @words = @words.paginate(page: page, per_page: per_page)
+
+    words_hash = WordSerializer.new(@words).serializable_hash
+    render json: words_hash.merge(
+      page_meta: {
+        total_count: words_count,
+        total_pages: (words_count / per_page.to_f).ceil
+      }
+    ), status: :ok
   end
 
   def show
