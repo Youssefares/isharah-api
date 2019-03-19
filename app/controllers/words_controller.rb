@@ -5,20 +5,12 @@ class WordsController < ApplicationController
   def index
     @words = Word.eager_load(:categories).where(nil)
 
-    if params[:category].present?
-      category_options = params[:category].split(/\s*,\s*/)
-      @words = @words.joins(:categories).references(:categories)
-                     .where(categories: { name: category_options }).distinct
-    end
-
-    if params[:q].present?
-      @words = @words.where('words.name LIKE ?', params[:q] + '%')
-    end
-
-    if params[:part_of_speech].present?
-      part_of_speech_options = params[:part_of_speech].split(/\s*,\s*/)
-      @words = @words.where(words: { part_of_speech: part_of_speech_options })
-    end
+    @words = WordsFilterService.new(
+      @words,
+      category: params[:category],
+      q: params[:q],
+      part_of_speech: params[:part_of_speech]
+    ).filter
 
     per_page = params[:per_page] || 30
     page = params[:page] || 1
