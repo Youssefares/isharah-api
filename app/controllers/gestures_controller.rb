@@ -16,7 +16,8 @@ class GesturesController < ApplicationController
       video: create_params[:video]
     )
     if @gesture.save
-      render json: @gesture, status: :ok
+      render json: GestureSerializer.new(@gesture).serialized_json,
+             status: :ok
     else
       render json: @gesture.errors, status: :unprocessable_entity
     end
@@ -26,17 +27,13 @@ class GesturesController < ApplicationController
     per_page = params[:per_page] || 5
     page = params[:page] || 1
 
-    @gestures = Gesture.unreviewed.paginate(page: page, per_page: per_page)
-    gestures_count = Gesture.unreviewed.count
-    render json: {
-      # TODO: @gestures should include video
-      # (to be fixed as soon as we figure out serialization)
-      gestures: @gestures,
-      page_meta: {
-        total_count: gestures_count,
-        total_pages: (gestures_count / per_page.to_f).ceil
-      }
-    }, status: :ok
+    render json: PaginatedSerializableService.new(
+      records: Gesture.eager_load(:word, :user).unreviewed,
+      serializer_klass: GestureSerializer,
+      serializer_options: { include: [:user] },
+      page: page,
+      per_page: per_page
+    ).build_hash, status: :ok
   end
 
   def review

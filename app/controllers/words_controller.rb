@@ -23,16 +23,12 @@ class WordsController < ApplicationController
     per_page = params[:per_page] || 30
     page = params[:page] || 1
 
-    words_count = @words.count
-    @words = @words.paginate(page: page, per_page: per_page)
-
-    words_hash = WordSerializer.new(@words).serializable_hash
-    render json: words_hash.merge(
-      page_meta: {
-        total_count: words_count,
-        total_pages: (words_count / per_page.to_f).ceil
-      }
-    ), status: :ok
+    render json: PaginatedSerializableService.new(
+      records: @words,
+      serializer_klass: WordSerializer,
+      page: page,
+      per_page: per_page
+    ).build_hash, status: :ok
   end
 
   def show
