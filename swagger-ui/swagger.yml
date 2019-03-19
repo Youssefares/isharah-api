@@ -898,7 +898,7 @@ paths:
                     "updated_at": "2019-03-14T18:38:19.059Z"
                   }
                 ]
-  /categories/{id}/:
+  /categories/{category}/:
     get:
       tags:
         - Categories
@@ -906,12 +906,11 @@ paths:
       summary: show-category
       parameters:
         - in: path
-          name: id
+          name: category
           schema:
-            type: integer
-            minimum: 1
+            type: string
           required: true
-          description: the id of the category.
+          description: category name string
       responses:
         '200':
           description: Returns the category with the given id.
@@ -933,6 +932,7 @@ paths:
                 {
                   "id": "Record not found."
                 }
+  /categories/{id}/:
     delete:
       security:
         - access-token: []
@@ -1128,7 +1128,7 @@ paths:
                     "total_pages": 1
                   }
                 }
-  /words/{id}/:
+  /words/{word}/:
     get:
       tags:
         - Words
@@ -1136,12 +1136,11 @@ paths:
       summary: show-word
       parameters:
         - in: path
-          name: id
+          name: word
           schema:
-            type: integer
-            minimum: 1
+            type: string
           required: true
-          description: the id of the word.
+          description: word string
       responses:
         '200':
           description: Returns requested word.
@@ -1169,6 +1168,7 @@ paths:
                 {
                   "id": "Record not found."
                 }
+  /words/{id}/:
     delete:
       security:
         - access-token: []

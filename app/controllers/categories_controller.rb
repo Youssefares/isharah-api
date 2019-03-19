@@ -8,7 +8,7 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @category = Category.find_by(id: params[:id])
+    @category = Category.find_by(name: params[:category])
     if @category
       render json: @category, status: :ok
     else

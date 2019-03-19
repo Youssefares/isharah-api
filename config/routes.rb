@@ -8,8 +8,11 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'application#home'
 
-  resources :categories, only: [:index, :show, :create, :destroy]
-  resources :words, only: [:index, :show, :create, :destroy]
+  resources :categories, only: [:index, :create, :destroy]
+  get'/categories/:category/', to: 'categories#show'
+
+  resources :words, only: [:index, :create, :destroy]
+  get 'words/:word/', to: 'words#show'
 
   resources :gestures, only: [:create]
   get '/gestures/unreviewed/', to: 'gestures#index_unreviewed'
