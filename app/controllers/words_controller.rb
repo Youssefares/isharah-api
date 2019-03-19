@@ -1,12 +1,12 @@
 class WordsController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
+  # Check inputted categories exist before creating word
+  before_action :find_categories, only: %i[create]
   authorize_resource
 
   def index
-    @words = Word.eager_load(:categories).where(nil)
-
     @words = WordsFilterService.new(
-      @words,
+      Word.eager_load(:categories).where(nil),
       category: params[:category],
       q: params[:q],
       part_of_speech: params[:part_of_speech]
@@ -34,17 +34,10 @@ class WordsController < ApplicationController
   end
 
   def create
-    categories = Category.where(name: create_params[:categories])
-    if create_params[:categories].present? &&
-       (create_params[:categories] - categories.pluck(:name)).present?
-      render json: { 'categories': ['Invalid category.'] },
-             status: :unprocessable_entity
-      return
-    end
     @word = Word.create(
       name: create_params[:name],
       part_of_speech: create_params[:part_of_speech],
-      categories: categories
+      categories: @categories
     )
     if @word.save
       word_json = WordSerializer.new(@word).serialized_json
@@ -62,6 +55,19 @@ class WordsController < ApplicationController
     else
       render json: { 'error': 'Record not found.' }, status: :not_found
     end
+  end
+
+  def find_categories
+    @categories = Category.where(name: create_params[:categories])
+    return if create_params[:categories].blank?
+
+    missing_categories = create_params[:categories] - @categories.pluck(:name)
+    return if missing_categories.blank?
+
+    render json: ErrorSerializableService.new(
+      input_name: 'categories',
+      error_string: "#{missing_categories.join(', ')} do(es) not exist"
+    ).build_hash, status: :not_found
   end
 
   private

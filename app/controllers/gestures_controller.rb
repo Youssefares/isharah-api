@@ -1,15 +1,12 @@
 class GesturesController < ApplicationController
   before_action :authenticate_user!, only: %i[review create index_unreviewed]
+  # Check to be reviewed gesture exists
+  before_action :find_gesture, only: %i[review]
+  # Check inputted word exists before creating gesture
+  before_action :find_word, only: %i[create]
   authorize_resource
 
   def create
-    # TODO: replace this with word creation logic if we decide to.
-    @word = Word.find_by(name: create_params[:word])
-    unless @word
-      render json: 'Word record not found',
-             status: :not_found
-      return
-    end
     @gesture = Gesture.new(
       user: current_user,
       word: @word,
@@ -37,14 +34,6 @@ class GesturesController < ApplicationController
   end
 
   def review
-    # Look for id in unreviewed gestures
-    @gesture = Gesture.unreviewed.find_by(id: review_params[:id])
-    unless @gesture
-      render json: 'Record not found or already reviewed',
-             status: :not_found
-      return
-    end
-
     # Create review
     @review = Review.new(
       reviewer: current_user,
@@ -68,6 +57,28 @@ class GesturesController < ApplicationController
     end
 
     render json: @review, status: :created
+  end
+
+  def find_word
+    # TODO: replace this with word creation logic if we decide to.
+    @word = Word.find_by(name: create_params[:word])
+    return if @word.present?
+
+    render json: ErrorSerializableService.new(
+      input_name: 'word',
+      error_string: 'record not found'
+    ).build_hash, status: :not_found
+  end
+
+  def find_gesture
+    # Look for id in unreviewed gestures
+    @gesture = Gesture.unreviewed.find_by(id: review_params[:id])
+    return if @gesture.present?
+
+    render json: ErrorSerializableService.new(
+      input_name: 'gesture_id',
+      error_string: 'Record not found or already reviewed'
+    ).build_hash, status: :not_found
   end
 
   private
