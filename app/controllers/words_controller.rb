@@ -24,7 +24,7 @@ class WordsController < ApplicationController
   end
 
   def show
-    @word = Word.find_by(id: params[:id])
+    @word = Word.find_by(name: params[:word])
     if @word
       word_json = WordSerializer.new(@word).serialized_json
       render json: word_json, status: :ok
