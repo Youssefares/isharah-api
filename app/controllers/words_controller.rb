@@ -2,6 +2,7 @@ class WordsController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
   # Check inputted categories exist before creating word
   before_action :find_categories, only: %i[create]
+  before_action :find_word, only: %i[show destroy]
   authorize_resource
 
   def index
@@ -25,18 +26,13 @@ class WordsController < ApplicationController
   end
 
   def show
-    @word = Word.find_by(name: params[:word])
-    if @word
-      render json: WordSerializer.new(
-        @word,
-        include: %i[
-          gesture
-          gesture.user
-        ]
-      ).serialized_json, status: :ok
-    else
-      render json: { 'error': 'Record not found.' }, status: :not_found
-    end
+    render json: WordSerializer.new(
+      @word,
+      include: %i[
+        gesture
+        gesture.user
+      ]
+    ).serialized_json, status: :ok
   end
 
   def create
@@ -53,13 +49,8 @@ class WordsController < ApplicationController
   end
 
   def destroy
-    @word = Word.find_by(id: params[:id])
-    if @word
-      @word.destroy
-      render json: { 'result': 'Word destroyed.' }, status: :ok
-    else
-      render json: { 'error': 'Record not found.' }, status: :not_found
-    end
+    @word.destroy
+    head :no_content
   end
 
   def find_categories
@@ -72,6 +63,16 @@ class WordsController < ApplicationController
     render json: ErrorSerializableService.new(
       input_name: 'categories',
       error_string: "#{missing_categories.join(', ')} do(es) not exist"
+    ).build_hash, status: :not_found
+  end
+
+  def find_word
+    @word = Word.find_by(id: params[:id]) || Word.find_by(name: params[:word])
+    return if @word.present?
+
+    render json: ErrorSerializableService.new(
+      input_name: 'word',
+      error_string: 'Record not found'
     ).build_hash, status: :not_found
   end
 

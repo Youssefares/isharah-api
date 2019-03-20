@@ -66,7 +66,7 @@ class GesturesController < ApplicationController
 
     render json: ErrorSerializableService.new(
       input_name: 'word',
-      error_string: 'record not found'
+      error_string: 'Record not found'
     ).build_hash, status: :not_found
   end
 
