@@ -56,7 +56,7 @@ class GesturesController < ApplicationController
       @gesture.update!(primary_dictionary_gesture: true)
     end
 
-    render json: @review, status: :created
+    render json: ReviewSerializer.new(@review).serialized_json, status: :created
   end
 
   def find_word

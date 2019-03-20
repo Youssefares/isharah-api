@@ -1,9 +1,10 @@
 class GestureSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :word do |gesture|
-    gesture.word.name
+
+  attribute :video_url do |gesture|
+    Rails.application.routes.url_helpers.rails_blob_url(gesture.video.blob)
   end
 
-  belongs_to :user, record_type: :contributor
-  # TODO: add video attachment somehow
+  belongs_to :user
+  belongs_to :word
 end

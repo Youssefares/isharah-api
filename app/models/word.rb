@@ -12,4 +12,8 @@ class Word < ApplicationRecord
       gestures: { primary_dictionary_gesture: true }
     )
   }
+
+  def primary_dictionary_gesture
+    gestures.dictionary.first
+  end
 end

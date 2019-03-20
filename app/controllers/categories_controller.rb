@@ -4,13 +4,16 @@ class CategoriesController < ApplicationController
 
   def index
     @categories = Category.all
-    render json: @categories, status: :ok
+    render json: CategorySerializer.new(@categories).serialized_json,
+           status: :ok
   end
 
   def show
     @category = Category.find_by(name: params[:category])
     if @category
-      render json: @category, status: :ok
+      # TODO: include category ancestors and descendents
+      render json: CategorySerializer.new(@category).serialized_json,
+             status: :ok
     else
       render json: { 'error': 'Record not found.' }, status: :not_found
     end
@@ -23,7 +26,8 @@ class CategoriesController < ApplicationController
       children: Category.where(name: create_params[:children])
     )
     if @category.save
-      render json: @category, status: :ok
+      render json: CategorySerializer.new(@category).serialized_json,
+             status: :ok
     else
       render json: @category.errors, status: :unprocessable_entity
     end

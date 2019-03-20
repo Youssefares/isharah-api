@@ -18,6 +18,7 @@ class WordsController < ApplicationController
     render json: PaginatedSerializableService.new(
       records: @words,
       serializer_klass: WordSerializer,
+      serializer_options: { include: [:categories] },
       page: page,
       per_page: per_page
     ).build_hash, status: :ok
@@ -26,8 +27,13 @@ class WordsController < ApplicationController
   def show
     @word = Word.find_by(name: params[:word])
     if @word
-      word_json = WordSerializer.new(@word).serialized_json
-      render json: word_json, status: :ok
+      render json: WordSerializer.new(
+        @word,
+        include: %i[
+          gesture
+          gesture.user
+        ]
+      ).serialized_json, status: :ok
     else
       render json: { 'error': 'Record not found.' }, status: :not_found
     end
@@ -40,8 +46,7 @@ class WordsController < ApplicationController
       categories: @categories
     )
     if @word.save
-      word_json = WordSerializer.new(@word).serialized_json
-      render json: word_json, status: :ok
+      render json: WordSerializer.new(@word).serialized_json, status: :ok
     else
       render json: @word.errors, status: :unprocessable_entity
     end
