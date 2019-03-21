@@ -1,0 +1,39 @@
+ar:
+  errors:
+    messages:
+        not_email: ليس بريدًا إلكترونيًا صحيحًا
+  activerecord:
+    attributes:
+      user:
+        email: البريد الكتروني
+        city: المدينة
+        country: البلد
+        date_of_birth: تاريخ الميلاد
+        first_name: الاسم اﻷول
+        gender: الجنس
+        last_name: اسم العائلة
+        password: كلمة المرور
+        password_confirmation: تأكيد كلمة المرور
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              too_short: قصيرة جدًا (الحد أدنى 6 أحرف)
+            password_confirmation:
+              confirmation: يجب أن يتطابق مع كلمة المرور
+            email:
+              blank: يجب الا يكون فارغًا
+              taken: تم استخدامه من قبل مستخدم آخر
+            city:
+              blank: يجب الا يكون فارغًا
+            country:
+              blank: يجب الا يكون فارغًا
+            date_of_birth:
+              blank: ليس تاريخًا صحيحًا
+            first_name:
+              blank: يجب الا يكون فارغًا
+            gender:
+              blank: يجب الا يكون فارغًا
+            last_name:
+              blank: يجب الا يكون فارغًا

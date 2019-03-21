@@ -35,6 +35,9 @@ module EgslWebsiteApi
                  methods: %i[get post put patch delete options head]
       end
     end
+
+    config.i18n.default_locale = :ar
+    config.i18n.fallbacks = [:en]
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
