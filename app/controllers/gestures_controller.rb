@@ -1,22 +1,20 @@
 class GesturesController < ApplicationController
   before_action :authenticate_user!, only: %i[review create index_unreviewed]
+  # Check to be reviewed gesture exists
+  before_action :find_gesture, only: %i[review]
+  # Check inputted word exists before creating gesture
+  before_action :find_word, only: %i[create]
   authorize_resource
 
   def create
-    # TODO: replace this with word creation logic if we decide to.
-    @word = Word.find_by(name: create_params[:word])
-    unless @word
-      render json: 'Word record not found',
-             status: :not_found
-      return
-    end
     @gesture = Gesture.new(
       user: current_user,
       word: @word,
       video: create_params[:video]
     )
     if @gesture.save
-      render json: @gesture, status: :ok
+      render json: GestureSerializer.new(@gesture).serialized_json,
+             status: :ok
     else
       render json: @gesture.errors, status: :unprocessable_entity
     end
@@ -26,28 +24,16 @@ class GesturesController < ApplicationController
     per_page = params[:per_page] || 5
     page = params[:page] || 1
 
-    @gestures = Gesture.unreviewed.paginate(page: page, per_page: per_page)
-    gestures_count = Gesture.unreviewed.count
-    render json: {
-      # TODO: @gestures should include video
-      # (to be fixed as soon as we figure out serialization)
-      gestures: @gestures,
-      page_meta: {
-        total_count: gestures_count,
-        total_pages: (gestures_count / per_page.to_f).ceil
-      }
-    }, status: :ok
+    render json: PaginatedSerializableService.new(
+      records: Gesture.eager_load(:word, :user).unreviewed,
+      serializer_klass: GestureSerializer,
+      serializer_options: { include: [:user] },
+      page: page,
+      per_page: per_page
+    ).build_hash, status: :ok
   end
 
   def review
-    # Look for id in unreviewed gestures
-    @gesture = Gesture.unreviewed.find_by(id: review_params[:id])
-    unless @gesture
-      render json: 'Record not found or already reviewed',
-             status: :not_found
-      return
-    end
-
     # Create review
     @review = Review.new(
       reviewer: current_user,
@@ -70,7 +56,29 @@ class GesturesController < ApplicationController
       @gesture.update!(primary_dictionary_gesture: true)
     end
 
-    render json: @review, status: :created
+    render json: ReviewSerializer.new(@review).serialized_json, status: :created
+  end
+
+  def find_word
+    # TODO: replace this with word creation logic if we decide to.
+    @word = Word.find_by(name: create_params[:word])
+    return if @word.present?
+
+    render json: ErrorSerializableService.new(
+      input_name: 'word',
+      error_string: 'Record not found'
+    ).build_hash, status: :not_found
+  end
+
+  def find_gesture
+    # Look for id in unreviewed gestures
+    @gesture = Gesture.unreviewed.find_by(id: review_params[:id])
+    return if @gesture.present?
+
+    render json: ErrorSerializableService.new(
+      input_name: 'gesture_id',
+      error_string: 'Record not found or already reviewed'
+    ).build_hash, status: :not_found
   end
 
   private

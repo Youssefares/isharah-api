@@ -2,8 +2,8 @@ require:
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.3.5
-  TargetRailsVersion: 5.0.3
+  TargetRubyVersion: 2.6.2
+  TargetRailsVersion: 5.2.2
   # Cop names are not d§splayed in offense messages by default. Change behavior
   # by overriding DisplayCopNames, or by giving the -D/--display-cop-names
   # option.
@@ -34,4 +34,8 @@ Style/Documentation:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# WTF??
+Style/SymbolProc:
   Enabled: false
