@@ -18,10 +18,14 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.create(
       name: create_params[:name],
-      parent: Category.find_by(name: create_params[:parent]),
-      children: Category.where(name: create_params[:children])
+      parent: Category.find_by(name: create_params[:parent])
     )
     if @category.save
+      children = Category.where(name: create_params[:children])
+      children.each do |child|
+        child.parent = @category
+        child.save
+      end
       render json: CategorySerializer.new(@category).serialized_json,
              status: :ok
     else
