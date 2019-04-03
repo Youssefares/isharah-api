@@ -3,16 +3,15 @@ class CategorySerializer
   attribute :name
 
   has_one :parent do |category|
-  	category.parent
+    category.parent
   end
   has_many :ancestors do |category|
-  	category.ancestors
+    category.ancestors
   end
   has_many :descendants do |category|
-  	category.descendants
+    category.descendants
   end
   has_many :children do |category|
-  	category.children
+    category.children
   end
-
 end
