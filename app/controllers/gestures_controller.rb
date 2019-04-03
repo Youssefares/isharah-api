@@ -25,9 +25,12 @@ class GesturesController < ApplicationController
     page = params[:page] || 1
 
     render json: PaginatedSerializableService.new(
-      records: Gesture.eager_load(:word, :user).unreviewed,
+      records: Gesture.with_attached_video
+                      .eager_load(word: :categories)
+                      .eager_load(:user)
+                      .unreviewed,
       serializer_klass: GestureSerializer,
-      serializer_options: { include: [:user] },
+      serializer_options: { include: %i[user word word.categories] },
       page: page,
       per_page: per_page
     ).build_hash, status: :ok

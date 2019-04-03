@@ -1,6 +1,9 @@
 class Word < ApplicationRecord
   has_and_belongs_to_many :categories
   has_many :gestures
+  has_one :primary_dictionary_gesture,
+          -> { dictionary.limit(1) },
+          class_name: 'Gesture'
 
   validates :name, presence: true, uniqueness: true
   validates :categories, presence: true
@@ -12,8 +15,4 @@ class Word < ApplicationRecord
       gestures: { primary_dictionary_gesture: true }
     )
   }
-
-  def primary_dictionary_gesture
-    gestures.dictionary.first
-  end
 end

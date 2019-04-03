@@ -19,7 +19,6 @@ class WordsController < ApplicationController
     render json: PaginatedSerializableService.new(
       records: @words,
       serializer_klass: WordSerializer,
-      serializer_options: { include: [:categories] },
       page: page,
       per_page: per_page
     ).build_hash, status: :ok
@@ -29,9 +28,11 @@ class WordsController < ApplicationController
     render json: WordSerializer.new(
       @word,
       include: %i[
-        gesture
-        gesture.user
-      ]
+        categories
+        primary_dictionary_gesture
+        primary_dictionary_gesture.user
+      ],
+      params: { include_gesture: true }
     ).serialized_json, status: :ok
   end
 

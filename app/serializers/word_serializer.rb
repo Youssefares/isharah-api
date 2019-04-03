@@ -2,9 +2,8 @@ class WordSerializer
   include FastJsonapi::ObjectSerializer
   attributes :name, :part_of_speech
 
-  has_one :gesture do |word|
-    word.primary_dictionary_gesture
-  end
-
+  has_one :primary_dictionary_gesture,
+          serializer: GestureSerializer,
+          if: proc { |_, params| params && params[:include_gesture] == true }
   has_many :categories
 end
