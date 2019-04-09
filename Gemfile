@@ -30,6 +30,9 @@ gem 'will_paginate', '~> 3.1.0'
 # Bulk insert activerecord data
 gem 'activerecord-import'
 
+# Category ancestry
+gem 'ancestry'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

@@ -1,5 +1,9 @@
 class CategorySerializer
   include FastJsonapi::ObjectSerializer
   attribute :name
-  # TODO: add category ancestors and descendents here someway
+
+  has_one :parent, serializer: :category
+  has_many :ancestors, serializer: :category
+  has_many :descendants, serializer: :category
+  has_many :children, serializer: :category
 end

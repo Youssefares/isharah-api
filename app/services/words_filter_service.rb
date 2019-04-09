@@ -9,8 +9,15 @@ class WordsFilterService
   def filter
     if @category.present?
       category_options = @category.split(/\s*,\s*/)
+      categories = Category.where(name: category_options)
+      # Get ids of all categories and their descendant categories
+      category_ids = []
+      categories.each do |category|
+        category_ids.push(*category.descendant_ids)
+        category_ids.push(category.id)
+      end
       @words = @words.joins(:categories).references(:categories)
-                     .where(categories: { name: category_options }).distinct
+                     .where(categories: { id: category_ids }).distinct
     end
     @words = @words.where('words.name LIKE ?', @q + '%') if @q.present?
 

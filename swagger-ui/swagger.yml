@@ -20,6 +20,8 @@ tags:
     description: Create a word, destroy a word, show a word, index words.
   - name: Categories
     description: Create a category, destroy a category, show a category, index categories.
+  - name: Users
+    description: Show current user, show current user's contributions
 
 paths:
   /gestures/unreviewed/:
@@ -1221,6 +1223,85 @@ paths:
                 {
                   "error": "You do not have permission to access this endpoint."
                 }
+  /user/:
+    get:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Users
+      operationId: show-user
+      summary: show-user
+      responses:
+        '200':
+          description: Returns current user.
+          content:
+            application/json:
+              example:
+                {
+                  "data": {
+                    "id": "3",
+                    "type": "user",
+                    "attributes": {
+                      "first_name": "Yara",
+                      "last_name": "Abdullatif",
+                      "uid": "yara@egsl.com",
+                      "email": "yara@egsl.com",
+                      "city": "Alexandria",
+                      "country": "Egypt",
+                      "date_of_birth": "1996-03-18",
+                      "gender": "female",
+                      "bio": null,
+                      "image": null
+                    }
+                  }
+                }
+  /user/contributions/:
+    get:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Users
+      operationId: show-user-contributions
+      summary: show-user-contributions
+      responses:
+        '200':
+          description: Returns current user's contributions.
+          content:
+            application/json:
+              example:
+                {
+                "data": [
+                  {
+                    "id": "1",
+                    "type": "gesture",
+                    "attributes": {
+                      "video_url": "url/to/video.mp4"
+                    },
+                    "relationships": {
+                      "user": {
+                        "data": {
+                          "id": "4",
+                          "type": "user"
+                        }
+                      },
+                      "word": {
+                        "data": {
+                          "id": "4",
+                          "type": "word"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "page_meta": {
+                  "total_count": 2,
+                  "total_pages": 1
+                }
+              }
 components:
   securitySchemes:
     access-token:
