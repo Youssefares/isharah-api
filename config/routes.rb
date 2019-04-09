@@ -17,4 +17,7 @@ Rails.application.routes.draw do
   resources :gestures, only: [:create]
   get '/gestures/unreviewed/', to: 'gestures#index_unreviewed'
   post '/gestures/:id/review', to: 'gestures#review'
+
+  get 'user/', to: 'users#show'
+  get 'user/contributions/', to: 'users#contributions'
 end
