@@ -12,9 +12,10 @@ Rails.application.routes.draw do
   get'/categories/:category/', to: 'categories#show'
 
   resources :words, only: [:index, :create, :destroy]
-  get 'words/:word/', to: 'words#show'
+  get '/autocomplete/words/', to:'words#autocomplete'
+  get '/words/:word/', to: 'words#show'
 
   resources :gestures, only: [:create]
   get '/gestures/unreviewed/', to: 'gestures#index_unreviewed'
-  post '/gestures/:id/review', to: 'gestures#review'
+  post '/gestures/:id/review/', to: 'gestures#review'
 end

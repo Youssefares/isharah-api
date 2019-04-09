@@ -49,3 +49,7 @@ node_modules/
 
 # Ignore local activestorage files
 storage/**/**
+
+# Ignore wordlist file
+**/**/*arabic-wordlist*
+**/**/*Arabic-Wordlist*

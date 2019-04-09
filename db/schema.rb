@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 2019_03_06_234323) do
 
   create_table "words", force: :cascade do |t|
     t.string "name", null: false
-    t.string "part_of_speech", null: false
+    t.string "part_of_speech"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_words_on_name"

@@ -2,7 +2,7 @@ class CreateWords < ActiveRecord::Migration[5.2]
   def change
     create_table :words do |t|
       t.string :name, null: false, unique: true, index: true
-      t.string :part_of_speech, null: false, index: true
+      t.string :part_of_speech, index: true
       t.timestamps
     end
 

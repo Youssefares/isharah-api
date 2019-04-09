@@ -7,7 +7,7 @@ class WordsController < ApplicationController
 
   def index
     @words = WordsFilterService.new(
-      Word.eager_load(:categories).where(nil),
+      Word.having_public_gestures.eager_load(:categories).where(nil),
       category: params[:category],
       q: params[:q],
       part_of_speech: params[:part_of_speech]
@@ -22,6 +22,16 @@ class WordsController < ApplicationController
       page: page,
       per_page: per_page
     ).build_hash, status: :ok
+  end
+
+  def autocomplete
+    limit = params[:limit] || 10
+    @words = WordsFilterService.new(
+      Word.where(nil),
+      q: params[:q] || ''
+    ).filter.limit(limit)
+
+    render json: @words.pluck(:name)
   end
 
   def show

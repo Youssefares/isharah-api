@@ -1,9 +1,9 @@
 class WordsFilterService
   def initialize(words, filters = {})
     @words = words
-    @category = filters.fetch(:category)
-    @q = filters.fetch(:q)
-    @part_of_speech = filters.fetch(:part_of_speech)
+    @category = filters.fetch(:category, nil)
+    @q = filters.fetch(:q, nil)
+    @part_of_speech = filters.fetch(:part_of_speech, nil)
   end
 
   def filter
@@ -19,6 +19,6 @@ class WordsFilterService
       @words = @words.where(words: { part_of_speech: part_of_speech_options })
     end
 
-    @words
+    @words.order(:name)
   end
 end

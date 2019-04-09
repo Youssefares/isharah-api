@@ -33,5 +33,6 @@ class Ability
   def visitor_abilities
     can :read, Category
     can :read, Word
+    can :autocomplete, Word
   end
 end

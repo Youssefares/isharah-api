@@ -27,6 +27,9 @@ gem 'fast_jsonapi'
 # Pagination
 gem 'will_paginate', '~> 3.1.0'
 
+# Bulk insert activerecord data
+gem 'activerecord-import'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
