@@ -40,7 +40,7 @@ class CategoriesController < ApplicationController
 
   def find_category
     @category = Category.find_by(id: params[:id]) ||
-                Category.find_by(name: params[:category])
+                Category.find_by(name: params[:category_name])
     return if @category.present?
 
     render json: ErrorSerializableService.new(

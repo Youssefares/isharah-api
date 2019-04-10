@@ -9,11 +9,11 @@ Rails.application.routes.draw do
   root to: 'application#home'
 
   resources :categories, only: [:index, :create, :destroy]
-  get'/categories/:category/', to: 'categories#show'
+  get'/categories/:category_name/', to: 'categories#show'
 
   resources :words, only: [:index, :create, :destroy]
   get '/autocomplete/words/', to:'words#autocomplete'
-  get '/words/:word/', to: 'words#show'
+  get '/words/:word_name/', to: 'words#show'
 
   resources :gestures, only: [:create]
   get '/gestures/unreviewed/', to: 'gestures#index_unreviewed'

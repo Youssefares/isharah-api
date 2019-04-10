@@ -78,7 +78,10 @@ class WordsController < ApplicationController
   end
 
   def find_word
-    @word = Word.find_by(id: params[:id]) || Word.find_by(name: params[:word])
+    # Find by id: finds in all words
+    # Find by name: finds in words with public gestures (for dictionary)
+    @word = Word.find_by(id: params[:id]) ||
+            Word.having_public_gestures.find_by(name: params[:word_name])
     return if @word.present?
 
     render json: ErrorSerializableService.new(
