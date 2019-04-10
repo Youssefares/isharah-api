@@ -28,6 +28,8 @@ class Ability
   def contributer_abilities
     visitor_abilities
     can :create, Gesture
+    can :show, User
+    can :contributions, User
   end
 
   def visitor_abilities
