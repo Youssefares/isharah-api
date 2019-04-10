@@ -52,32 +52,80 @@ paths:
       responses:
         '200':
           description: >-
-            returns at most 5 gesture records (*TODO* along with their videos)
-            Also returns pagination-related metadata.
+            returns at most 5 gesture records along with pagination-related metadata.
           content:
             application/json:
               example:
                 {
-                  "gestures": [
+                  "data": [
                     {
-                      "id": 1,
-                      "word_id": 5,
-                      "user_id": 3,
-                      "primary_dictionary_gesture": true,
-                      "created_at": "2019-03-11T21:58:18.110Z",
-                      "updated_at": "2019-03-11T21:58:18.176Z"
+                      "id": "1",
+                      "type": "gesture",
+                      "attributes": {
+                        "video_url": "url/to/video.mp4"
+                      },
+                      "relationships": {
+                        "user": {
+                          "data": {
+                            "id": "4",
+                            "type": "user"
+                          }
+                        },
+                        "word": {
+                          "data": {
+                            "id": "4",
+                            "type": "word"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "included": [
+                    {
+                      "id": "4",
+                      "type": "user",
+                      "attributes": {
+                        "first_name": "Tarek",
+                        "last_name": "Alqady",
+                        "uid": "tarek@egsl.com",
+                        "email": "tarek@egsl.com",
+                        "city": "Alexandria",
+                        "country": "Egypt",
+                        "date_of_birth": "1996-03-18",
+                        "gender": "male",
+                        "bio": null,
+                        "image": null
+                      }
                     },
                     {
-                      "id": 3,
-                      "word_id": 2,
-                      "user_id": 1,
-                      "primary_dictionary_gesture": false,
-                      "created_at": "2019-03-11T23:01:04.091Z",
-                      "updated_at": "2019-03-11T23:01:04.097Z"
+                      "id": "4",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أحمر",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "5",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "5",
+                      "type": "category",
+                      "attributes": {
+                        "name": "ألوان"
+                      },
+                      "relationships": {}
                     }
                   ],
                   "page_meta": {
-                    "total_count": 3,
+                    "total_count": 1,
                     "total_pages": 1
                   }
                 }
@@ -134,12 +182,27 @@ paths:
             application/json:
               example:
                 {
-                  "id": 4,
-                  "word_id": 2,
-                  "user_id": 1,
-                  "primary_dictionary_gesture": false,
-                  "created_at": "2019-03-13T20:11:25.539Z",
-                  "updated_at": "2019-03-13T20:11:25.542Z"
+                  "data": {
+                    "id": "3",
+                    "type": "gesture",
+                    "attributes": {
+                      "video_url": "url/to/video.mp"
+                    },
+                    "relationships": {
+                      "user": {
+                        "data": {
+                          "id": "1",
+                          "type": "user"
+                        }
+                      },
+                      "word": {
+                        "data": {
+                          "id": "3",
+                          "type": "word"
+                        }
+                      }
+                    }
+                  }
                 }
         '403':
           description: Forbidden
@@ -164,7 +227,13 @@ paths:
           content:
             application/json:
               example:
-                "Wordrecordnotfound"
+                {
+                  "errors": {
+                    "word": [
+                      "Record not found"
+                    ]
+                  }
+                }
 
   /gestures/{id}/review/:
     post:
@@ -201,13 +270,28 @@ paths:
             application/json:
               example:
                 {
-                  "id": 3,
-                  "gesture_id": 2,
-                  "reviewer_id": 2,
-                  "accepted": false,
-                  "comment": "Bad lighting",
-                  "created_at": "2019-03-13T23:22:12.199Z",
-                  "updated_at": "2019-03-13T23:22:12.199Z"
+                  "data": {
+                    "id": "2",
+                    "type": "review",
+                    "attributes": {
+                      "accepted": true,
+                      "comment": null
+                    },
+                    "relationships": {
+                      "reviewer": {
+                        "data": {
+                          "id": "1",
+                          "type": "reviewer"
+                        }
+                      },
+                      "gesture": {
+                        "data": {
+                          "id": "4",
+                          "type": "gesture"
+                        }
+                      }
+                    }
+                  }
                 }
         '403':
           description: Forbidden
@@ -232,7 +316,13 @@ paths:
           content:
             application/json:
               example:
-                Recordnotfoundoralreadyreviewed
+                {
+                  "errors": {
+                    "gesture_id": [
+                      "Record not found or already reviewed"
+                    ]
+                  }
+                }
         '422':
           description: Unprocessable entity
           content:
@@ -838,13 +928,16 @@ paths:
           content:
             application/json:
               example:
-                {
-                  "id": 5,
-                  "name": "طيور",
-                  "parent_id": 1,
-                  "created_at": "2019-03-14T18:38:19.059Z",
-                  "updated_at": "2019-03-14T18:38:19.059Z"
+               {
+                "data": {
+                  "id": "10",
+                  "type": "category",
+                  "attributes": {
+                    "name": "طيور"
+                  },
+                  "relationships": {}
                 }
+              }
         '422':
           description: Name is invalid (e.g. used or empty). Returns the errors.
           content:
@@ -884,22 +977,34 @@ paths:
           content:
             application/json:
               example:
-                [
-                  {
-                    "id": 1,
-                    "name": "حيوانات",
-                    "parent_id": nil,
-                    "created_at": "2019-03-14T18:38:19.059Z",
-                    "updated_at": "2019-03-14T18:38:19.059Z"
-                  },
-                  {
-                    "id": 5,
-                    "name": "طيور",
-                    "parent_id": 1,
-                    "created_at": "2019-03-14T18:38:19.059Z",
-                    "updated_at": "2019-03-14T18:38:19.059Z"
-                  }
-                ]
+                {
+                  "data": [
+                    {
+                      "id": "2",
+                      "type": "category",
+                      "attributes": {
+                        "name": "اﻷسرة"
+                      },
+                      "relationships": {}
+                    },
+                    {
+                      "id": "3",
+                      "type": "category",
+                      "attributes": {
+                        "name": "أُخرى"
+                      },
+                      "relationships": {}
+                    },
+                    {
+                      "id": "4",
+                      "type": "category",
+                      "attributes": {
+                        "name": "أيام"
+                      },
+                      "relationships": {}
+                    }
+                  ]
+                }
   /categories/{category}/:
     get:
       tags:
@@ -920,11 +1025,14 @@ paths:
             application/json:
               example:
                 {
-                  "id": 5,
-                  "name": "طيور",
-                  "parent_id": 1,
-                  "created_at": "2019-03-14T18:38:19.059Z",
-                  "updated_at": "2019-03-14T18:38:19.059Z"
+                  "data": {
+                    "id": "5",
+                    "type": "category",
+                    "attributes": {
+                      "name": "ألوان"
+                    },
+                    "relationships": {}
+                  }
                 }
         '404':
           description: Category not found.
@@ -932,7 +1040,11 @@ paths:
             application/json:
               example:
                 {
-                  "id": "Record not found."
+                  "errors": {
+                    "category": [
+                      "Record not found"
+                    ]
+                  }
                 }
   /categories/{id}/:
     delete:
@@ -953,21 +1065,19 @@ paths:
           required: true
           description: the id of the category to be deleted.
       responses:
-        '200':
+        '204':
           description: Category deleted successfully.
-          content:
-            application/json:
-              example:
-                {
-                  "result": "Category destroyed."
-                }
         '404':
           description: Category not found.
           content:
             application/json:
               example:
                 {
-                  "id": "Record not found."
+                  "errors": {
+                    "category": [
+                      "Record not found"
+                    ]
+                  }
                 }
         '401':
           description: Unauthorized.
@@ -987,6 +1097,44 @@ paths:
                 {
                   "error": "You do not have permission to access this endpoint."
                 }
+  /autocomplete/words/:
+    get:
+      tags:
+        - Words
+      operationId: index-words
+      summary: index-words
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: false
+          description: prefix of the word(s).
+        - in: query
+          name: limit
+          schema:
+            type: int
+          required: false
+          default: 10
+          description: number of words to return
+      responses:
+        '200':
+          description: Word created successfully.
+          content:
+            application/json:
+              example:
+                [
+                  "نحن",
+                  "نحنأ",
+                  "نحناح",
+                  "نحنأك",
+                  "نحنأكم",
+                  "نحنأكما",
+                  "نحنأكن",
+                  "نحنأه",
+                  "نحنأها",
+                  "نحنأهم"
+                ]
   /words/:
     post:
       security:
@@ -1168,7 +1316,11 @@ paths:
             application/json:
               example:
                 {
-                  "id": "Record not found."
+                  "errors": {
+                    "word": [
+                      "Record not found"
+                    ]
+                  }
                 }
   /words/{id}/:
     delete:
@@ -1189,21 +1341,19 @@ paths:
           required: true
           description: the id of the word to be deleted.
       responses:
-        '200':
+        '204':
           description: Word deleted successfully.
-          content:
-            application/json:
-              example:
-                {
-                  "result": "Word destroyed."
-                }
         '404':
           description: Word not found.
           content:
             application/json:
               example:
                 {
-                  "id": "Record not found."
+                  "errors": {
+                    "word": [
+                      "Record not found"
+                    ]
+                  }
                 }
         '401':
           description: Unauthorized.
