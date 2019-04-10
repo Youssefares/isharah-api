@@ -7,7 +7,7 @@ namespace :words do
   task populate: :environment do
     words = File.readlines(PATH_TO_LIST)
     Word.transaction do
-      Word.import [:name], words.map { |word| [word] },
+      Word.import [:name], words.map { |word| [word.chomp] },
                   validate: false,
                   on_duplicate_key_ignore: true,
                   batch_size: 1e5
