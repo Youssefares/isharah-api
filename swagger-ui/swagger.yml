@@ -1419,7 +1419,7 @@ paths:
       summary: show-user-contributions
       responses:
         '200':
-          description: Returns current user's contributions, including its respective word and categories.
+          description: Returns current user's contributions, including their respective words and categories.
           content:
             application/json:
               example:
