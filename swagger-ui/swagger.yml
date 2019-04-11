@@ -1419,39 +1419,68 @@ paths:
       summary: show-user-contributions
       responses:
         '200':
-          description: Returns current user's contributions.
+          description: Returns current user's contributions, including its respective word and categories.
           content:
             application/json:
               example:
                 {
-                "data": [
-                  {
-                    "id": "1",
-                    "type": "gesture",
-                    "attributes": {
-                      "video_url": "url/to/video.mp4"
-                    },
-                    "relationships": {
-                      "user": {
-                        "data": {
-                          "id": "4",
-                          "type": "user"
-                        }
+                  "data": [
+                    {
+                      "id": "1",
+                      "type": "gesture",
+                      "attributes": {
+                        "created_at": "2019-04-11T22:16:06.207Z",
+                        "video_url": "url/to/video.mp4"
                       },
-                      "word": {
-                        "data": {
-                          "id": "4",
-                          "type": "word"
+                      "relationships": {
+                        "user": {
+                          "data": {
+                            "id": "4",
+                            "type": "user"
+                          }
+                        },
+                        "word": {
+                          "data": {
+                            "id": "4",
+                            "type": "word"
+                          }
                         }
                       }
+                    },
+                  ],
+                  "included": [
+                    {
+                      "id": "4",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أحمر",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "5",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "5",
+                      "type": "category",
+                      "attributes": {
+                        "name": "ألوان"
+                      },
+                      "relationships": {}
                     }
+                  ],
+                  "page_meta": {
+                    "total_count": 1,
+                    "total_pages": 1
                   }
-                ],
-                "page_meta": {
-                  "total_count": 2,
-                  "total_pages": 1
                 }
-              }
 components:
   securitySchemes:
     access-token:
