@@ -38,13 +38,11 @@ ActiveRecord::Schema.define(version: 2019_04_02_162939) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ancestry"
     t.index ["ancestry"], name: "index_categories_on_ancestry"
     t.index ["name"], name: "index_categories_on_name"
-    t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
   create_table "categories_words", id: false, force: :cascade do |t|

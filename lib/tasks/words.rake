@@ -6,12 +6,10 @@ namespace :words do
   desc 'populates words table with arabic words'
   task populate: :environment do
     words = File.readlines(PATH_TO_LIST)
-    Word.transaction do
-      Word.import [:name], words.map { |word| [word.chomp] },
-                  validate: false,
-                  on_duplicate_key_ignore: true,
-                  batch_size: 1e5
-    end
+    Word.import [:name], words.map { |word| [word.chomp] },
+                validate: false,
+                on_duplicate_key_ignore: true,
+                batch_size: 1e5
     puts 'Words created'
     puts "Word count: #{Word.count}"
   end

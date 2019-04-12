@@ -52,7 +52,7 @@ class GesturesController < ApplicationController
     end
 
     # Make gesture primary if it's the first gesture for this word
-    if Gesture.where(
+    unless Gesture.where(
       word: @gesture.word,
       primary_dictionary_gesture: true
     ).exists?
