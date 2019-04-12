@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     render json: PaginatedSerializableService.new(
       records: current_user.gestures,
       serializer_klass: GestureSerializer,
-      serializer_options: { include: %i[word word.categories] },
+      serializer_options: { include: %i[review word word.categories] },
       page: page,
       per_page: per_page
     ).build_hash, status: :ok

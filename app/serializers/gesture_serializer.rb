@@ -6,6 +6,7 @@ class GestureSerializer
     Rails.application.routes.url_helpers.rails_blob_url(gesture.video.blob)
   end
 
+  has_one :review
   belongs_to :user
   belongs_to :word
 end

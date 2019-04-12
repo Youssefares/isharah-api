@@ -1419,7 +1419,7 @@ paths:
       summary: show-user-contributions
       responses:
         '200':
-          description: Returns current user's contributions, including their respective words and categories.
+          description: Returns current user's contributions, including their respective reviews, words and categories.
           content:
             application/json:
               example:
@@ -1474,6 +1474,29 @@ paths:
                         "name": "ألوان"
                       },
                       "relationships": {}
+                    },
+                    {
+                      "id": "1",
+                      "type": "review",
+                      "attributes": {
+                        "accepted": false,
+                        "comment": "Tarek is too cute.",
+                        "created_at": "2019-04-11T22:16:06.743Z"
+                      },
+                      "relationships": {
+                        "reviewer": {
+                          "data": {
+                            "id": "3",
+                            "type": "reviewer"
+                          }
+                        },
+                        "gesture": {
+                          "data": {
+                            "id": "2",
+                            "type": "gesture"
+                          }
+                        }
+                      }
                     }
                   ],
                   "page_meta": {
