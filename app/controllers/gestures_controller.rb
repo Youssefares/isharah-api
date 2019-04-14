@@ -28,6 +28,7 @@ class GesturesController < ApplicationController
       records: Gesture.with_attached_video
                       .eager_load(word: :categories)
                       .eager_load(:user)
+                      .eager_load(:review)
                       .unreviewed,
       serializer_klass: GestureSerializer,
       serializer_options: { include: %i[user word word.categories] },
