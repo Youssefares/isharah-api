@@ -1168,11 +1168,18 @@ paths:
                     "id": "9",
                     "type": "word",
                     "attributes": {
-                      "name": "بطة",
-                      "part_of_speech": "اسم",
-                      "categories": [
-                        "طيور"
-                      ]
+                      "name": "كمبانب كللمة جديدة",
+                      "part_of_speech": "حرف"
+                    },
+                    "relationships": {
+                      "categories": {
+                        "data": [
+                          {
+                            "id": "5",
+                            "type": "category"
+                          }
+                        ]
+                      }
                     }
                   }
                 }
@@ -1299,16 +1306,81 @@ paths:
               example:
                 {
                   "data": {
-                    "id": "9",
+                    "id": "4",
                     "type": "word",
                     "attributes": {
-                      "name": "بطة",
-                      "part_of_speech": "اسم",
-                      "categories": [
-                        "طيور"
-                      ]
+                      "name": "أحمر",
+                      "part_of_speech": "اسم"
+                    },
+                    "relationships": {
+                      "primary_dictionary_gesture": {
+                        "data": {
+                          "id": "1",
+                          "type": "gesture"
+                        }
+                      },
+                      "categories": {
+                        "data": [
+                          {
+                            "id": "5",
+                            "type": "category"
+                          }
+                        ]
+                      }
                     }
-                  }
+                  },
+                  "included": [
+                    {
+                      "id": "5",
+                      "type": "category",
+                      "attributes": {
+                        "name": "ألوان"
+                      },
+                      "relationships": {}
+                    },
+                    {
+                      "id": "1",
+                      "type": "gesture",
+                      "attributes": {
+                        "created_at": "2019-04-14T21:04:00.713Z",
+                        "video_url": "url/to/video.mp4"
+                      },
+                      "relationships": {
+                        "review": {
+                          "data": null
+                        },
+                        "user": {
+                          "data": {
+                            "id": "4",
+                            "type": "user"
+                          }
+                        },
+                        "word": {
+                          "data": {
+                            "id": "4",
+                            "type": "word"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "4",
+                      "type": "user",
+                      "attributes": {
+                        "first_name": "Tarek",
+                        "last_name": "Alqady",
+                        "uid": "tarek@egsl.com",
+                        "email": "tarek@egsl.com",
+                        "city": "Alexandria",
+                        "country": "Egypt",
+                        "date_of_birth": "1996-03-18",
+                        "gender": "male",
+                        "bio": null,
+                        "image": null,
+                        "created_at": "2019-04-14T21:04:00.379Z"
+                      }
+                    }
+                  ]
                 }
         '404':
           description: Word not found.
