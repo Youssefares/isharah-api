@@ -47,7 +47,7 @@ class WordsController < ApplicationController
   end
 
   def create
-    @word = Word.create(
+    @word = Word.new(
       name: create_params[:name],
       part_of_speech: create_params[:part_of_speech],
       categories: @categories

@@ -15,4 +15,12 @@ class Gesture < ApplicationRecord
   scope :dictionary, lambda {
     where(primary_dictionary_gesture: true)
   }
+
+  def video_url
+    Rails.application.routes.url_helpers.rails_blob_url(video.blob)
+  end
+
+  def video_path
+    ActiveStorage::Blob.service.send(:path_for, video.key)
+  end
 end

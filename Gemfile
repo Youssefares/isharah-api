@@ -33,6 +33,9 @@ gem 'activerecord-import'
 # Category ancestry
 gem 'ancestry'
 
+# Video Transcoding
+gem 'streamio-ffmpeg'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
