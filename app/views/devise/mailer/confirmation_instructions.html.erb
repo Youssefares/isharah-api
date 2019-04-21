@@ -1,0 +1,7 @@
+<html dir="rtl" lang="ar">
+
+<h2>مرحبا، <%= @resource.first_name %>!</h2>
+
+<p>أهلا بك في عائلة إشارة!</p>
+<p>من فضلك اضغط الرابط التالي لتأكيد حسابك:</p>
+<p><%= link_to 'تأكيد حسابي', confirmation_url(@resource, {confirmation_token: @token, config: message['client-config'].to_s, redirect_url: message['redirect-url']}).html_safe %></p>

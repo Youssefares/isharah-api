@@ -1,0 +1,8 @@
+html dir="rtl" lang="ar">
+
+<h2>مرحبا، <%= @resource.first_name %>!</h2>
+
+
+<p>تم تجميد حساب <b>إشارة</b> الخاص بك وذلك لكثرة محاولات تسجيل الدخول الغير ناجحة. لإعادة فتح حسابك، من فضلك اضغط الرابط التالي:</p>
+
+<p><%= link_to 'إعادة فتح حسابي', unlock_url(@resource, unlock_token: @token, config: message['client-config'].to_s) %></p>
