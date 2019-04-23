@@ -1,9 +1,17 @@
 <html dir="rtl" lang="ar">
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Cairo:400,700" rel="stylesheet" type="text/css">
+</head>
 
-<h2>مرحبا، <%= @resource.first_name %>!</h2>
+<body style="font-family:Cairo">
+	<h2>مرحبا، <%= @resource.first_name %>!</h2>
 
-<% if @resource.try(:unconfirmed_email?) %>
-  <p>تم تغيير بريدك الإلكتروني الخاص بحساب <b>إشارة</b> إلى <%= @resource.unconfirmed_email %>.</p>
-<% else %>
-  <p>تم تغيير بريدك الإلكتروني الخاص بحساب <b>إشارة</b> إلى <%= @resource.email %>.</p>
-<% end %>
+	<% if @resource.try(:unconfirmed_email?) %>
+	  <p>تم تغيير بريدك الإلكتروني الخاص بحساب <b>إشارة</b> إلى <%= @resource.unconfirmed_email %>.</p>
+	<% else %>
+	  <p>تم تغيير بريدك الإلكتروني الخاص بحساب <b>إشارة</b> إلى <%= @resource.email %>.</p>
+	<% end %>
+	<br/>
+	<p style="color:#6b6b47;">فريق إشارة</p>
+</body>
+</html>

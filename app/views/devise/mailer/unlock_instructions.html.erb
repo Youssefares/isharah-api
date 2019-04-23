@@ -1,8 +1,20 @@
-html dir="rtl" lang="ar">
+<html dir="rtl" lang="ar">
 
-<h2>مرحبا، <%= @resource.first_name %>!</h2>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Cairo:400,700" rel="stylesheet" type="text/css">
+</head>
 
+<body style="font-family:Cairo">
+	<h2>مرحبا، <%= @resource.first_name %>!</h2><br/>
 
-<p>تم تجميد حساب <b>إشارة</b> الخاص بك وذلك لكثرة محاولات تسجيل الدخول الغير ناجحة. لإعادة فتح حسابك، من فضلك اضغط الرابط التالي:</p>
-
-<p><%= link_to 'إعادة فتح حسابي', unlock_url(@resource, unlock_token: @token, config: message['client-config'].to_s) %></p>
+	<p>تم تجميد حساب <b>إشارة</b> الخاص بك وذلك لكثرة محاولات تسجيل الدخول الغير ناجحة. لإعادة فتح حسابك، من فضلك اضغط الرابط التالي:</p><br/>
+	
+	<%= link_to unlock_url(@resource, unlock_token: @token, config: message['client-config'].to_s) do %>
+      <%= content_tag :div, "إعادة فتح حسابي", 
+        :style => "text-align:center; width: 180px; height: 40px; line-height: 40px; color: #fff;
+          background: linear-gradient(to right, #f46b45 0%, #eea849 100%); border-radius: 28px;" %>
+  	<% end %>
+	<br/>
+	<p style="color:#6b6b47;">فريق إشارة</p>
+</body>
+</html>
