@@ -31,7 +31,10 @@ class WordsController < ApplicationController
       q: params[:q] || ''
     ).filter.limit(limit)
 
-    render json: @words.pluck(:name)
+    render json: WordSerializer.new(
+      @words,
+      include: [:categories]
+    ).serialized_json, status: :ok
   end
 
   def show

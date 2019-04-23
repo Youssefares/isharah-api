@@ -1125,18 +1125,100 @@ paths:
           content:
             application/json:
               example:
-                [
-                  "نحن",
-                  "نحنأ",
-                  "نحناح",
-                  "نحنأك",
-                  "نحنأكم",
-                  "نحنأكما",
-                  "نحنأكن",
-                  "نحنأه",
-                  "نحنأها",
-                  "نحنأهم"
-                ]
+                {
+                  "data": [
+                    {
+                      "id": "2",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أب",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "2",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "4",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أحمر",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "5",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "5",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أسود",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "5",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "3",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أم",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "2",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "included": [
+                    {
+                      "id": "2",
+                      "type": "category",
+                      "attributes": {
+                        "name": "اﻷسرة"
+                      },
+                      "relationships": {}
+                    },
+                    {
+                      "id": "5",
+                      "type": "category",
+                      "attributes": {
+                        "name": "ألوان"
+                      },
+                      "relationships": {}
+                    }
+                  ]
+                }
   /words/:
     post:
       security:
