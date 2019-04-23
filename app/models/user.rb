@@ -14,8 +14,6 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true
   validate :type_is_valid_model_name
 
-  validates_strength_of :password, level: :good, with: :first_name
-
   def self.roles
     %w[Admin Reviewer User]
   end
