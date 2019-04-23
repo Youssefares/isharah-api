@@ -94,10 +94,12 @@ GEM
       mimemagic (~> 0.3.2)
     method_source (0.9.2)
     mimemagic (0.3.3)
+    mini_magick (4.9.3)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     msgpack (1.2.6)
+    multi_json (1.13.1)
     nio4r (2.3.1)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
@@ -207,6 +209,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    streamio-ffmpeg (3.0.2)
+      multi_json (~> 1.8)
     swagger_ui_engine (1.1.2)
       rails (>= 4.2)
       sass-rails
@@ -236,6 +240,7 @@ DEPENDENCIES
   factory_bot_rails
   fast_jsonapi
   listen (>= 3.0.5, < 3.2)
+  mini_magick (~> 4.8)
   pg (>= 0.18, < 2.0)
   pry (~> 0.12.2)
   pry-rails
@@ -248,6 +253,7 @@ DEPENDENCIES
   rubocop-rspec
   spring
   spring-watcher-listen (~> 2.0.0)
+  streamio-ffmpeg
   swagger_ui_engine
   tzinfo-data
   will_paginate (~> 3.1.0)

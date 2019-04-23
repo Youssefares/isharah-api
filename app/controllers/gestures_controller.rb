@@ -31,7 +31,10 @@ class GesturesController < ApplicationController
                       .eager_load(:review)
                       .unreviewed,
       serializer_klass: GestureSerializer,
-      serializer_options: { include: %i[user word word.categories] },
+      serializer_options: {
+        include: %i[user word word.categories],
+        params: { include_preview: true }
+      },
       page: page,
       per_page: per_page
     ).build_hash, status: :ok

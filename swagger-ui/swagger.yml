@@ -62,7 +62,9 @@ paths:
                       "id": "1",
                       "type": "gesture",
                       "attributes": {
-                        "video_url": "url/to/video.mp4"
+                        "created_at": "2019-04-11T22:16:06.207Z",
+                        "video_url": "url/to/video.mp4",
+                        "preview_url": "url/to/preview."
                       },
                       "relationships": {
                         "user": {
@@ -186,7 +188,7 @@ paths:
                     "id": "3",
                     "type": "gesture",
                     "attributes": {
-                      "video_url": "url/to/video.mp"
+                      "video_url": "url/to/video.mp4"
                     },
                     "relationships": {
                       "user": {
@@ -1502,7 +1504,8 @@ paths:
                       "type": "gesture",
                       "attributes": {
                         "created_at": "2019-04-11T22:16:06.207Z",
-                        "video_url": "url/to/video.mp4"
+                        "video_url": "url/to/video.mp4",
+                        "preview_url": "url/to/video.mp4"
                       },
                       "relationships": {
                         "user": {
