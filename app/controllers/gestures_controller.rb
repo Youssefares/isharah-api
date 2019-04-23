@@ -4,6 +4,7 @@ class GesturesController < ApplicationController
   before_action :find_gesture, only: %i[review]
   # Check inputted word exists before creating gesture
   before_action :find_word, only: %i[create]
+  after_action :trim_gesture_video, only: %i[create]
   authorize_resource
 
   def create
@@ -88,10 +89,18 @@ class GesturesController < ApplicationController
     ).build_hash, status: :not_found
   end
 
+  def trim_gesture_video
+    start = params[:start]
+    finish = params[:finish]
+    return if start.blank? || finish.blank? || @gesture.errors.present?
+
+    VideoTrimmerService.new(@gesture.video_path, start, finish).trim
+  end
+
   private
 
   def create_params
-    params.permit(:word, :video)
+    params.permit(:word, :video, :start, :finish)
   end
 
   def review_params
