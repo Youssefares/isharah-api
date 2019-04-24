@@ -21,9 +21,6 @@ gem 'devise_token_auth'
 # Authorization
 gem 'cancancan', '~> 2.3'
 
-# Password strength validation
-gem 'password_strength'
-
 # Serialization
 gem 'fast_jsonapi'
 
