@@ -20,6 +20,12 @@ class Gesture < ApplicationRecord
     Rails.application.routes.url_helpers.rails_blob_url(video.blob)
   end
 
+  def preview_url
+    # Get/Generate preview (gets generated once then stored permanently in DB)
+    preview = video.preview({})
+    Rails.application.routes.url_helpers.rails_representation_url(preview)
+  end
+
   def video_path
     ActiveStorage::Blob.service.send(:path_for, video.key)
   end

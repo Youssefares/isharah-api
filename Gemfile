@@ -33,11 +33,11 @@ gem 'activerecord-import'
 # Category ancestry
 gem 'ancestry'
 
-# Video Transcoding
-gem 'streamio-ffmpeg'
+# Starting subprocesses (We use it for video trimming)
+gem 'subprocess'
 
 # Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
+gem 'mini_magick', '~> 4.8'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

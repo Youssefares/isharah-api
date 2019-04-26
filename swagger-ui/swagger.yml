@@ -62,7 +62,9 @@ paths:
                       "id": "1",
                       "type": "gesture",
                       "attributes": {
-                        "video_url": "url/to/video.mp4"
+                        "created_at": "2019-04-11T22:16:06.207Z",
+                        "video_url": "url/to/video.mp4",
+                        "preview_url": "url/to/preview."
                       },
                       "relationships": {
                         "user": {
@@ -186,7 +188,7 @@ paths:
                     "id": "3",
                     "type": "gesture",
                     "attributes": {
-                      "video_url": "url/to/video.mp"
+                      "video_url": "url/to/video.mp4"
                     },
                     "relationships": {
                       "user": {
@@ -1123,18 +1125,100 @@ paths:
           content:
             application/json:
               example:
-                [
-                  "نحن",
-                  "نحنأ",
-                  "نحناح",
-                  "نحنأك",
-                  "نحنأكم",
-                  "نحنأكما",
-                  "نحنأكن",
-                  "نحنأه",
-                  "نحنأها",
-                  "نحنأهم"
-                ]
+                {
+                  "data": [
+                    {
+                      "id": "2",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أب",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "2",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "4",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أحمر",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "5",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "5",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أسود",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "5",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "id": "3",
+                      "type": "word",
+                      "attributes": {
+                        "name": "أم",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "2",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "included": [
+                    {
+                      "id": "2",
+                      "type": "category",
+                      "attributes": {
+                        "name": "اﻷسرة"
+                      },
+                      "relationships": {}
+                    },
+                    {
+                      "id": "5",
+                      "type": "category",
+                      "attributes": {
+                        "name": "ألوان"
+                      },
+                      "relationships": {}
+                    }
+                  ]
+                }
   /words/:
     post:
       security:
@@ -1502,7 +1586,8 @@ paths:
                       "type": "gesture",
                       "attributes": {
                         "created_at": "2019-04-11T22:16:06.207Z",
-                        "video_url": "url/to/video.mp4"
+                        "video_url": "url/to/video.mp4",
+                        "preview_url": "url/to/video.mp4"
                       },
                       "relationships": {
                         "user": {
