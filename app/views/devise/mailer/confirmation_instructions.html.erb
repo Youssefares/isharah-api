@@ -4,17 +4,21 @@
 </head>
 
 <body style="font-family:Cairo">
-  <h2>مرحبا، <%= @resource.first_name %>!</h2><br/>
+  <h2>مرحبا، <%= @resource.first_name %>!</h2>
 
   <p>أهلا بك في عائلة إشارة!</p><br/>
-  <p>من فضلك اضغط الرابط التالي لتأكيد حسابك:</p><br/>
+  <p>من فضلك اضغط الزر التالي لتأكيد حسابك:</p>
 
   <%= link_to confirmation_url(@resource, {confirmation_token: @token, 
       config: message['client-config'].to_s, redirect_url: message['redirect-url']}) do %>
       <%= content_tag :div, "تأكيد حسابي", 
         :style => "text-align:center; width: 180px; height: 40px; line-height: 40px; color: #fff;
-          background: linear-gradient(90deg, #0f93c3 0%, #00c8a3 100%); border-radius: 28px;" %>
+          background: linear-gradient(90deg, #0f93c3 0%, #00c8a3 100%); border-radius: 28px; 
+          text-decoration: none;" %>
   <% end %>
+  <p>أو عبر نسخ الرابط:</p>
+  <p><%= confirmation_url(@resource, {confirmation_token: @token, 
+      config: message['client-config'].to_s, redirect_url: message['redirect-url']}) %></p>
   <br/>
   <p>إذا لم تقم بطلب التسجيل في موقع إشارة، يمكنك تجاهل هذه الرسالة.</p>
   <br/>
