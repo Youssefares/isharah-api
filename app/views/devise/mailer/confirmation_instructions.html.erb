@@ -6,16 +6,17 @@
 <body style="font-family:Cairo">
   <h2>مرحبا، <%= @resource.first_name %>!</h2>
 
-  <p>أهلا بك في عائلة إشارة!</p><br/>
+  <p>أهلا بك في عائلة إشارة!</p>
   <p>من فضلك اضغط الزر التالي لتأكيد حسابك:</p>
 
   <%= link_to confirmation_url(@resource, {confirmation_token: @token, 
-      config: message['client-config'].to_s, redirect_url: message['redirect-url']}) do %>
+      config: message['client-config'].to_s, redirect_url: message['redirect-url']}), 
+      {:style=>'text-decoration:none;'} do %>
       <%= content_tag :div, "تأكيد حسابي", 
         :style => "text-align:center; width: 180px; height: 40px; line-height: 40px; color: #fff;
           background: linear-gradient(90deg, #0f93c3 0%, #00c8a3 100%); border-radius: 28px; 
           text-decoration: none;" %>
-  <% end %>
+  <% end %><br/>
   <p>أو عبر نسخ الرابط:</p>
   <p><%= confirmation_url(@resource, {confirmation_token: @token, 
       config: message['client-config'].to_s, redirect_url: message['redirect-url']}) %></p>
