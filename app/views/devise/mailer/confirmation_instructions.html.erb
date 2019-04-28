@@ -1,0 +1,28 @@
+<html dir="rtl" lang="ar">
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Cairo:400,700" rel="stylesheet" type="text/css">
+</head>
+
+<body style="font-family:Cairo">
+  <h2>مرحبا، <%= @resource.first_name %>!</h2>
+
+  <p>أهلا بك في عائلة إشارة!</p>
+  <p>من فضلك اضغط الزر التالي لتأكيد حسابك:</p>
+
+  <%= link_to confirmation_url(@resource, {confirmation_token: @token, 
+      config: message['client-config'].to_s, redirect_url: message['redirect-url']}), 
+      {:style=>'text-decoration:none;'} do %>
+      <%= content_tag :div, "تأكيد حسابي", 
+        :style => "text-align:center; width: 180px; height: 40px; line-height: 40px; color: #fff;
+          background: linear-gradient(90deg, #0f93c3 0%, #00c8a3 100%); border-radius: 28px; 
+          text-decoration: none;" %>
+  <% end %><br/>
+  <p>أو عبر نسخ الرابط:</p>
+  <p><%= confirmation_url(@resource, {confirmation_token: @token, 
+      config: message['client-config'].to_s, redirect_url: message['redirect-url']}) %></p>
+  <br/>
+  <p>إذا لم تقم بطلب التسجيل في موقع إشارة، يمكنك تجاهل هذه الرسالة.</p>
+  <br/>
+  <p style="color:#6b6b47;">فريق إشارة</p>
+</body>
+</html>
