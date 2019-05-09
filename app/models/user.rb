@@ -13,9 +13,16 @@ class User < ActiveRecord::Base
             :gender, :last_name, :type, presence: true
   validates :email, presence: true, uniqueness: true
   validate :type_is_valid_model_name
+  validate :password_complexity
 
   def self.roles
     %w[Admin Reviewer User]
+  end
+
+  def password_complexity
+    return if password =~ /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,}$/ && password != email
+
+    errors.add :password, :too_weak
   end
 
   def type_is_valid_model_name
