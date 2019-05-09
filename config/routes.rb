@@ -21,4 +21,5 @@ Rails.application.routes.draw do
 
   get 'user/', to: 'users#show'
   get 'user/contributions/', to: 'users#contributions'
+  get 'user/reviews/', to: 'users#reviews'
 end

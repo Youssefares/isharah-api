@@ -1661,6 +1661,102 @@ paths:
                     "total_pages": 1
                   }
                 }
+  /user/reviews/:
+    get:
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      tags:
+        - Users
+      operationId: show-user-reviews
+      summary: show-user-reviews
+      responses:
+        '200':
+          description: Returns reviewer's reviews, including reviewed gesture and its word.
+          content:
+            application/json:
+              example:
+                {
+                  "data": [
+                    {
+                      "id": "1",
+                      "type": "review",
+                      "attributes": {
+                        "accepted": false,
+                        "comment": "إشارة غير صحيحة.",
+                        "created_at": "2019-04-26T17:25:18.318Z"
+                      },
+                      "relationships": {
+                        "reviewer": {
+                          "data": {
+                            "id": "3",
+                            "type": "reviewer"
+                          }
+                        },
+                        "gesture": {
+                          "data": {
+                            "id": "2",
+                            "type": "gesture"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "included": [
+                    {
+                      "id": "2",
+                      "type": "gesture",
+                      "attributes": {
+                        "created_at": "2019-04-26T17:25:13.975Z",
+                        "video_url": "url/to/video",
+                        "preview_url": "url/to/preview"
+                      },
+                      "relationships": {
+                        "review": {
+                          "data": {
+                            "id": "1",
+                            "type": "review"
+                          }
+                        },
+                        "user": {
+                          "data": {
+                            "id": "4",
+                            "type": "user"
+                          }
+                        },
+                        "word": {
+                          "data": {
+                            "id": "8",
+                            "type": "word"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "id": "8",
+                      "type": "word",
+                      "attributes": {
+                        "name": "السبت",
+                        "part_of_speech": "اسم"
+                      },
+                      "relationships": {
+                        "categories": {
+                          "data": [
+                            {
+                              "id": "4",
+                              "type": "category"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "page_meta": {
+                    "total_count": 1,
+                    "total_pages": 1
+                  }
+                }
 components:
   securitySchemes:
     access-token:

@@ -23,6 +23,7 @@ class Ability
     contributer_abilities
     can :review, Gesture
     can :index_unreviewed, Gesture
+    can :reviews, User
   end
 
   def contributer_abilities
