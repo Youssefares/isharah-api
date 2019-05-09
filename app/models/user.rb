@@ -20,7 +20,8 @@ class User < ActiveRecord::Base
   end
 
   def password_complexity
-    return if password =~ /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,}$/ && password != email
+    return if password =~ /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,}$/ &&
+              password != email
 
     errors.add :password, :too_weak
   end
