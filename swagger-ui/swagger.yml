@@ -1556,6 +1556,7 @@ paths:
                       "email": "yara@egsl.com",
                       "city": "Alexandria",
                       "country": "Egypt",
+                      "type": "Reviewer",
                       "date_of_birth": "1996-03-18",
                       "gender": "female",
                       "bio": null,
