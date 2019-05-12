@@ -19,8 +19,9 @@ ar:
         user:
           attributes:
             password:
-              too_short: قصيرة جدًا (الحد أدنى 6 أحرف)
-              too_weak: ضعيفة جدا؛ استخدم مزيجا من الحروف والأرقام والرموز.
+              too_short: قصيرة جدًا (الحد أدنى 8 أحرف)
+              too_weak: ضعيفة. يجب أن تحتوي كلمة المرور على أحرف وأرقام.
+              matches_email: ضعيفة. كلمة المرور يجب ألا تطابق البريد الإلكتروني.
             password_confirmation:
               confirmation: يجب أن يتطابق مع كلمة المرور
             email:
