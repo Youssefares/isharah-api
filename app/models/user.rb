@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
     %w[Admin Reviewer User]
   end
 
+  def contributions_count
+    gestures.accepted(true).count
+  end
+
   def password_complexity
     return if password =~ /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
