@@ -30,12 +30,18 @@ Metrics/MethodLength:
   Max: 30
 Metrics/AbcSize:
   Max: 30
+
+Naming/AccessorMethodName:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/IfUnlessModifier:
+  Enabled: false
 # WTF??
 Style/SymbolProc:
   Enabled: false

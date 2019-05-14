@@ -3,14 +3,14 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :timeoutable and :omniauthable
   devise :confirmable, :database_authenticatable, :lockable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: [:facebook]
   include DeviseTokenAuth::Concerns::User
 
   has_many :gestures
   has_many :reviews, foreign_key: :reviewer_id
 
-  validates :city, :country, :date_of_birth, :first_name,
-            :gender, :last_name, :type, presence: true
+  validates :first_name, :last_name, :type, presence: true
   validates :email, presence: true, uniqueness: true
   validate :type_is_valid_model_name
   validate :password_complexity
@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
   end
 
   def password_complexity
-    return if password =~ /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
+    return if provider != 'email' ||
+              password =~ /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     errors.add :password, :too_weak
   end
