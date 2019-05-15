@@ -21,6 +21,12 @@ gem 'devise_token_auth'
 # Authorization
 gem 'cancancan', '~> 2.3'
 
+# Facebook authentication
+gem 'omniauth-facebook'
+
+# Hiding environment variables
+gem 'figaro'
+
 # Serialization
 gem 'fast_jsonapi'
 
