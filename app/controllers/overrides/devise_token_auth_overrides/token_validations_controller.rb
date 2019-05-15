@@ -3,11 +3,10 @@ module Overrides
     # Modified TokenValidations Controller modifying json response
     class TokenValidationsController <
           DeviseTokenAuth::TokenValidationsController
-      def render_validate_token_success
-        render json: {
-          status: 'success',
-          data: @resource.as_json.merge(type: @resource.type)
-        }
+      def resource_data(_opts = {})
+        response_data = UserSerializer.new(@resource).as_json['data']
+        response_data['type'] = @resource.class.name.parameterize if json_api?
+        response_data
       end
     end
   end

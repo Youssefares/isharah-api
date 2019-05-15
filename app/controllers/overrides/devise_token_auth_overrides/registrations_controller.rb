@@ -5,15 +5,10 @@ module Overrides
       before_action :permit_extra_params, only: %i[create update]
       skip_before_action :validate_account_update_params, only: :update
 
-      def render_create_success
-        render json: {
-          status: 'success',
-          data: @resource.as_json.merge(type: @resource.type)
-        }
-      end
-
-      def render_update_success
-        render_create_success
+      def resource_data(_opts = {})
+        response_data = UserSerializer.new(@resource).as_json['data']
+        response_data['type'] = @resource.class.name.parameterize if json_api?
+        response_data
       end
 
       def permit_extra_params
