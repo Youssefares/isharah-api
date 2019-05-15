@@ -2,6 +2,7 @@ module Overrides
   class OmniauthCallbacksController <
     DeviseTokenAuth::OmniauthCallbacksController
     # https://github.com/lynndylanhurley/devise_token_auth/issues/1020
+    # Sync user info with the provider.
     def assign_provider_attrs(user, auth_hash)
       all_attrs = auth_hash['info'].slice(*user.attributes.keys)
       orig_val = ActionController::Parameters.permit_all_parameters
