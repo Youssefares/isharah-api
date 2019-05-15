@@ -12,7 +12,7 @@ module Overrides
       user
     end
 
-    def get_resource_from_auth_hash
+    def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
       logger.debug auth_hash
       # find by provider and provider uid
       @resource = resource_class.find_by(
@@ -38,11 +38,13 @@ module Overrides
 
     def set_resource_fields
       # TODO: Add city, country and DoB
-      @resource.uid = auth_hash['uid']
-      @resource.provider = auth_hash['provider']
-      @resource.email = auth_hash['info']['email']
-      @resource.first_name = auth_hash['info']['first_name']
-      @resource.last_name = auth_hash['info']['first_name']
+      @resource.assign_attributes(
+        uid: auth_hash['uid'],
+        provider: auth_hash['provider'],
+        email: auth_hash['info']['email'],
+        first_name: auth_hash['info']['first_name'],
+        last_name: auth_hash['info']['last_name']
+      )
     end
   end
 end
