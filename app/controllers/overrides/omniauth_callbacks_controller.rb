@@ -14,18 +14,15 @@ module Overrides
 
     def get_resource_from_auth_hash
       logger.debug auth_hash
-      # find or create user by provider and provider uid
+      # find by provider and provider uid
       @resource = resource_class.find_by(
         uid: auth_hash['uid'],
         provider: auth_hash['provider']
       )
 
-      if @resource.nil?
+      if @resource.nil? # New user
         @resource = User.new
         set_resource_fields
-      end
-
-      if @resource.new_record?
         @oauth_registration = true
       end
 
