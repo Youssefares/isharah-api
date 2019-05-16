@@ -24,6 +24,9 @@ gem 'cancancan', '~> 2.3'
 # Facebook authentication
 gem 'omniauth-facebook'
 
+# Google authentication
+gem 'omniauth-google-oauth2'
+
 # Hiding environment variables
 gem 'figaro'
 
