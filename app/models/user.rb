@@ -26,7 +26,8 @@ class User < ActiveRecord::Base
 
   def password_complexity
     return if provider != 'email' ||
-              password =~ /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
+              password =~
+              /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9!@#\$%\^&\*\(\)-=_\+.\?]+)$/
 
     errors.add :password, :too_weak
   end
