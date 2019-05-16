@@ -20,8 +20,16 @@ class User < ActiveRecord::Base
     %w[Admin Reviewer User]
   end
 
-  def contributions_count
+  def accepted_contributions_count
     gestures.accepted(true).count
+  end
+
+  def rejected_contributions_count
+    gestures.accepted(false).count
+  end
+
+  def pending_contributions_count
+    gestures.unreviewed.count
   end
 
   def password_complexity
