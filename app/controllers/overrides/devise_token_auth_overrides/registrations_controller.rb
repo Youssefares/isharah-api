@@ -5,6 +5,10 @@ module Overrides
       before_action :permit_extra_params, only: %i[create update]
       skip_before_action :validate_account_update_params, only: :update
 
+      def resource_data(_opts = {})
+        UserSerializer.new(@resource).serializable_hash[:data]
+      end
+
       def permit_extra_params
         # Mapping from method names given in params
         # To action name required by devise_parameter_sanitizer.permit.
