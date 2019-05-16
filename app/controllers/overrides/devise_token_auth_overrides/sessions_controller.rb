@@ -3,9 +3,7 @@ module Overrides
     # Modified Sessions Controller modifying json response
     class SessionsController < DeviseTokenAuth::SessionsController
       def resource_data(_opts = {})
-        response_data = UserSerializer.new(@resource).as_json['data']
-        response_data['type'] = @resource.class.name.parameterize if json_api?
-        response_data
+        UserSerializer.new(@resource).serializable_hash[:data]
       end
     end
   end

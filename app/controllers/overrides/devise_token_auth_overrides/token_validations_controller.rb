@@ -4,9 +4,7 @@ module Overrides
     class TokenValidationsController <
           DeviseTokenAuth::TokenValidationsController
       def resource_data(_opts = {})
-        response_data = UserSerializer.new(@resource).as_json['data']
-        response_data['type'] = @resource.class.name.parameterize if json_api?
-        response_data
+        UserSerializer.new(@resource).serializable_hash[:data]
       end
     end
   end

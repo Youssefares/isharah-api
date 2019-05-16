@@ -6,9 +6,7 @@ module Overrides
       skip_before_action :validate_account_update_params, only: :update
 
       def resource_data(_opts = {})
-        response_data = UserSerializer.new(@resource).as_json['data']
-        response_data['type'] = @resource.class.name.parameterize if json_api?
-        response_data
+        UserSerializer.new(@resource).serializable_hash[:data]
       end
 
       def permit_extra_params
