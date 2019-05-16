@@ -287,4 +287,7 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+
+  # https://github.com/lynndylanhurley/devise_token_auth/issues/1020
+  config.navigational_formats = [:json]
 end
