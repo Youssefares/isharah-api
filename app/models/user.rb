@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     gestures.unreviewed.count
   end
 
+  def reviews_count
+    reviews.count
+  end
+
   def password_complexity
     return if provider != 'email' ||
               password =~
