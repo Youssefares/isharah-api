@@ -7,8 +7,8 @@ services:
       EGSL-WEBSITE-API_DATABASE_PASSWORD: ${EGSL-WEBSITE-API_DATABASE_PASSWORD}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: .docker_prod/Dockerfile
     depends_on:
       - db
   db:
@@ -19,11 +19,3 @@ services:
       POSTGRES_PASSWORD: ${EGSL-WEBSITE-API_DATABASE_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  web_nginx:
-    build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
-    depends_on:
-      - web
-    ports:
-      - 80:80
