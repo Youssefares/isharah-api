@@ -1,0 +1,29 @@
+version: '3'
+volumes:
+  postgres_data: {}
+services:
+  web:
+    environment:
+      EGSL-WEBSITE-API_DATABASE_PASSWORD: ${EGSL-WEBSITE-API_DATABASE_PASSWORD}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: egsl-website-api_production
+      POSTGRES_USER: egsl-website-api
+      POSTGRES_PASSWORD: ${EGSL-WEBSITE-API_DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  web_nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    depends_on:
+      - web
+    ports:
+      - 80:80
