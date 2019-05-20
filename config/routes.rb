@@ -5,7 +5,7 @@ Rails.application.routes.draw do
                               controllers: {
                                 registrations: 'overrides/devise_token_auth_overrides/registrations',
                                 sessions: 'overrides/devise_token_auth_overrides/sessions',
-                                token_validations:  'overrides/devise_token_auth_overrides/token_validations'
+                                token_validations:  'overrides/devise_token_auth_overrides/token_validations',
                                 omniauth_callbacks: 'overrides/omniauth_callbacks'
                               }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
