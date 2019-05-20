@@ -43,7 +43,7 @@ module EgslWebsiteApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     # Required middleware for session management.
-    config.middleware.insert_after ActiveRecord::Migration::CheckPending, ActionDispatch::Cookies
-    config.middleware.insert_after ActionDispatch::Cookies, ActionDispatch::Session::CookieStore
-  end
+    config.session_store :cookie_store, key: '_interslice_session'
+    config.middleware.use ActionDispatch::Cookies # Required for all session management
+    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 end
