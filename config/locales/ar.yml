@@ -14,10 +14,13 @@ ar:
         last_name: اسم العائلة
         password: كلمة المرور
         password_confirmation: تأكيد كلمة المرور
+        current_password: كلمة السر الحالية
     errors:
       models:
         user:
           attributes:
+            current_password:
+              invalid: غير صحيحة
             password:
               too_short: قصيرة جدًا (الحد أدنى 8 أحرف)
               too_weak: ضعيفة. يجب أن تحتوي كلمة المرور على أحرف وأرقام.

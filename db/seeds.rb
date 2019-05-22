@@ -16,8 +16,7 @@ ahmed = Admin.create(
   date_of_birth: '1984-03-20',
   email: 'ahmed@egsl.com',
   gender: 'male',
-  password: 'password',
-  password_confirmation: 'password'
+  password: 'password1'
 )
 ahmed.confirm
 
@@ -29,8 +28,7 @@ youssef = User.create(
   date_of_birth: '1996-03-17',
   email: 'youssef@egsl.com',
   gender: 'male',
-  password: 'password',
-  password_confirmation: 'password'
+  password: 'password1'
 )
 youssef.confirm
 
@@ -42,8 +40,7 @@ yara = Reviewer.create(
   date_of_birth: '1996-03-18',
   email: 'yara@egsl.com',
   gender: 'female',
-  password: 'password',
-  password_confirmation: 'password'
+  password: 'password1'
 )
 yara.confirm
 
@@ -55,8 +52,7 @@ tarek = User.create(
   date_of_birth: '1996-03-18',
   email: 'tarek@egsl.com',
   gender: 'male',
-  password: 'password',
-  password_confirmation: 'password'
+  password: 'password1'
 )
 tarek.confirm
 

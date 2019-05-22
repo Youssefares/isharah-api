@@ -53,3 +53,6 @@ storage/**/**
 # Ignore wordlist file
 **/**/*arabic-wordlist*
 **/**/*Arabic-Wordlist*
+
+# Ignore sensitive configs
+config/application.yml

@@ -13,8 +13,9 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, :type, presence: true
   validates :email, presence: true, uniqueness: true
   validate :type_is_valid_model_name
-  validate :password_complexity
-  validate :password_doesnt_match_email
+  validate :password_complexity, :password_doesnt_match_email,
+           unless: proc { |a| a.password.blank? }
+  validates :password, confirmation: false
 
   def self.roles
     %w[Admin Reviewer User]
