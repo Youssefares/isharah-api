@@ -163,12 +163,17 @@ paths:
         description: >-
           Contains the string of the word to create the gesture for
           and the gesture video to be uploaded to create gesture record.
+          Optionally contains start & finish time in seconds for video trimming.
         required: true
         content:
           multipart/form-data:
             schema:
               type: object
               properties:
+                start:
+                  type: float
+                finish:
+                  type: float
                 word:
                   type: string
                 video:
