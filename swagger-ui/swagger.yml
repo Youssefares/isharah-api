@@ -1568,7 +1568,8 @@ paths:
                       "accepted_contributions_count": 0,
                       "rejected_contributions_count": 1,
                       "pending_contributions_count": 1,
-                      "reviews_count": 0
+                      "reviews_count": 0,
+                      "provider": "email"
                     }
                   }
                 }
