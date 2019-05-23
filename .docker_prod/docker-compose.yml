@@ -9,6 +9,9 @@ services:
     build:
       context: ..
       dockerfile: .docker_prod/Dockerfile
+    volumes:
+      - activestorage_data: storage
+      - rails_logs: logs
     ports:
       - "3000:3000"
     depends_on:
