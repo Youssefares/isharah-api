@@ -28,7 +28,7 @@ module EgslWebsiteApi
     # the framework and any gems in your application.
     config.middleware.use Rack::Cors do
       allow do
-        origins ENV['CORS_ORIGIN'].split(',')
+        origins config.allowed_cors_origins
         resource '*',
                  headers: :any,
                  expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'],

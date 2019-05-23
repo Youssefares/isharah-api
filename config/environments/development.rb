@@ -58,4 +58,7 @@ Rails.application.configure do
 
   # Added to make activestorage blob url work in development
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+
+  # CORS allowed origins in development
+  config.allowed_cors_origins = '*'
 end

@@ -96,4 +96,6 @@ Rails.application.configure do
     :authentication => :plain,
     :enable_starttls_auto => true
   }
+  # CORS allowed origins in production
+  config.allowed_cors_origins = ["https://isharah.com", "https://www.isharah.com"]
 end
