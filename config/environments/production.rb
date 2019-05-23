@@ -85,7 +85,7 @@ Rails.application.configure do
   config.serve_static_files = false
 
   # TODO: fix this when we go to broad
-  config.action_mailer.default_url_options = { host: 'isharah.com' }
+  config.action_mailer.default_url_options = { host: 'isharah.com', port: 8888 }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :user_name => ENV['SENDGRID_USERNAME'],
