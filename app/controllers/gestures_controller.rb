@@ -9,8 +9,7 @@ class GesturesController < ApplicationController
 
   def create
     @gesture = Gesture.new(
-      user: current_user,
-      word: @word,
+      user: current_user, word: @word,
       video: create_params[:video]
     )
     if @gesture.save
@@ -34,6 +33,25 @@ class GesturesController < ApplicationController
       serializer_klass: GestureSerializer,
       serializer_options: {
         include: %i[user word word.categories],
+        params: { include_preview: true }
+      },
+      page: page,
+      per_page: per_page
+    ).build_hash, status: :ok
+  end
+
+  def index_recently_added
+    per_page = params[:per_page] || 10
+    page = params[:page] || 1
+
+    render json: PaginatedSerializableService.new(
+      records: Gesture.with_attached_video
+                      .eager_load(word: :categories)
+                      .eager_load(:user)
+                      .dictionary.order(created_at: :desc),
+      serializer_klass: GestureSerializer,
+      serializer_options: {
+        include: %i[word word.categories],
         params: { include_preview: true }
       },
       page: page,
@@ -73,8 +91,7 @@ class GesturesController < ApplicationController
     return if @word.present?
 
     render json: ErrorSerializableService.new(
-      input_name: 'word',
-      error_string: 'Record not found'
+      input_name: 'word', error_string: 'Record not found'
     ).build_hash, status: :not_found
   end
 

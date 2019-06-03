@@ -36,5 +36,6 @@ class Ability
     can :read, Category
     can :read, Word
     can :autocomplete, Word
+    can :index_recently_added, Gesture
   end
 end
