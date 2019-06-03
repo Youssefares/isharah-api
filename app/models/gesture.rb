@@ -22,7 +22,7 @@ class Gesture < ApplicationRecord
 
   def preview_url
     # Get/Generate preview (gets generated once then stored permanently in DB)
-    preview = video.preview({})
+    preview = video.preview(resize: '404x228').processed
     Rails.application.routes.url_helpers.rails_representation_url(preview)
   end
 
