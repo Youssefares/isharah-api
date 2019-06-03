@@ -12,8 +12,8 @@ services:
       context: ..
       dockerfile: .docker_prod/Dockerfile
     volumes:
-      - activestorage_data:storage
-      - rails_logs:logs
+      - activestorage_data:/egsl-website-api/storage
+      - rails_logs:/egsl-website-api/logs
     ports:
       - "3000:3000"
     depends_on:

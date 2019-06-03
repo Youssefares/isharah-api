@@ -96,6 +96,10 @@ Rails.application.configure do
     :authentication => :plain,
     :enable_starttls_auto => true
   }
+
+  # Added to make activestorage blob url work
+  Rails.application.routes.default_url_options = { host: 'isharah.com', port:8888 }
+
   # CORS allowed origins in production
   config.allowed_cors_origins = ["https://isharah.com", "https://www.isharah.com"]
 end
