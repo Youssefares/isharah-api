@@ -78,7 +78,7 @@ class GesturesController < ApplicationController
     unless Gesture.where(
       word: @gesture.word,
       primary_dictionary_gesture: true
-    ).exists?
+    ).exists? || !@review.accepted
       @gesture.update!(primary_dictionary_gesture: true)
     end
 
