@@ -266,7 +266,7 @@ DEPENDENCIES
   fast_jsonapi
   figaro
   listen (>= 3.0.5, < 3.2)
-  mini_magick (~> 4.8)
+  mini_magick (~> 4.9, >= 4.9.3)
   omniauth-facebook
   omniauth-google-oauth2
   pg (>= 0.18, < 2.0)

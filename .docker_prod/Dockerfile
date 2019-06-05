@@ -1,7 +1,7 @@
 FROM ruby:2.6.2
 
 # Install dependencies not in Gemfile
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client ffmpeg
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client ffmpeg ffmpegthumbnailer
 
 ENV RAILS_ROOT /var/www/isharah
 RUN mkdir -p $RAILS_ROOT

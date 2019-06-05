@@ -21,8 +21,10 @@ class Gesture < ApplicationRecord
   end
 
   def preview_url
+    return nil unless video.previewable?
+
     # Get/Generate preview (gets generated once then stored permanently in DB)
-    preview = video.preview(resize: '404x228').processed
+    preview = video.preview({}).processed
     Rails.application.routes.url_helpers.rails_representation_url(preview)
   end
 

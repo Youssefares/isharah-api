@@ -1,5 +1,5 @@
 FROM ruby:2.6.2
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client ffmpeg
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client ffmpeg ffmpegthumbnailer
 RUN mkdir /egsl-website-api
 WORKDIR /egsl-website-api
 COPY Gemfile /egsl-website-api/Gemfile
