@@ -58,6 +58,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors', require: 'rack/cors'
 
+# Used for generating zip file for dataset
+gem 'rubyzip'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and
   # get a debugger console
