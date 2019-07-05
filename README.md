@@ -1,5 +1,5 @@
-# egsl-website-api
-This repo includes the Ruby on Rails api which serves as backend for the EgSL website.
+# isharah-api
+This repo includes the Ruby on Rails api which serves as backend for ishara.com.
 
 ## Getting started
 To get your repo up and running you will need to install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
@@ -29,7 +29,7 @@ If you go to `localhost:3030/?url=swagger.yml#/`, you should see the Swagger-UI 
 If you intend to use an interactive debugger (pry or byebug, etc.), instead of `docker-compose up` in step 3, you should run these two commands in succession:
   ```bash
   docker-compose up -d
-  docker attach egsl-website-api_web_1
+  docker attach isharah-api_web_1
   ```
 ### Rails commands
 If you're new to Docker, you should know that the rails env won't be available outside the container. So any rails commands (`rails c`, `rails g`, `rails db:migrate`, etc.), or any command dependent on the gemfile installed won't work outside the container, because they weren't installed outside. Instead you need to use `docker-compose exec web bash` to open a bash shell inside your container to be able to run all the rails commands you're used to. 
